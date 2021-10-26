@@ -1,14 +1,31 @@
-# Apiproject
+# ApiProject
 
-To start your Phoenix server:
+## Requirements
 
-  * Install dependencies with `mix deps.get`
+  * PostgreSql (default owner "postgres", default password "postgres")
+  * Elixir
+  * Phoenix
+  * Terminal access
+  * Git access to clone the project
+  * Postman
+
+### Launch API Server
+
+To start, clone the git project.
+To start your Phoenix server, type commands below in a terminal from the project directory you cloned before:
+
+  * Install dependencies with `mix deps.get`. In case of errors, you can try this:
+    * `mix deps.unlock --all`
+    * `mix deps.update --all`
   * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+  * Start Phoenix endpoints with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### How To Use
+
+  * To have the list of available routes, just go to http://localhost:4000/api
+  * You can use Postman application and import API Collection file to have all routes (you can find the collection in the root directory of the project: API.postman_collection.json) or your browser directly for GET requests.
 
 ## Learn more
 
