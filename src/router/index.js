@@ -2,32 +2,33 @@ import { createWebHistory, createRouter } from "vue-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserDashboard from "../pages/UserDashboard";
-
-// import NotFound from "../pages/Login";
+import NotFound from "../pages/NotFound";
 
 const routes = [
   {
     path: "/",
-    name: "login",
+    redirect: "/login",
+  },
+  {
+    path: "/login",
+    name: "Login",
     component: Login,
-    props: true,
   },
   {
     path: "/register",
-    name: "register",
+    name: "Register",
     component: Register,
-    props: true,
   },
   {
     path: "/dashboard",
-    name: "dashboard",
+    name: "Dashboard",
     component: UserDashboard,
-    props: true,
   },
-  // {
-  //   path: "/:pathMatch(.*)*",
-  //   component: NotFound,
-  // },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFound",
+    component: NotFound,
+  },
 ];
 
 const router = createRouter({

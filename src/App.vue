@@ -1,8 +1,8 @@
 <template>
   <main>
     <div>
-      <router-link to="/">Login</router-link> |
-      <router-link to="/register">Register</router-link>
+      <router-link :to="{ name: 'Login' }">Login</router-link> |
+      <router-link :to="{ name: 'Register' }">Register</router-link>
     </div>
     <router-view />
   </main>

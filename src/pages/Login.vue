@@ -1,43 +1,30 @@
 <template>
   <div>
-    <h1>Se connecter avec email & mdp</h1>
-    <form id="createUserForm">
+    <h1>Se connecter</h1>
+    <form>
       <div>
         <label>Username</label>
-        <input type="text" name="username" />
+        <input type="text" v-model="username" />
       </div>
       <div>
         <label>Email</label>
-        <input type="text" name="email" />
+        <input type="text" v-model="email" />
       </div>
       <div>
-        <input class="submit_button" type="submit" value="submit" />
+        <input
+          class="submit_button"
+          type="submit"
+          value="submit"
+          @click.prevent="submit"
+        />
       </div>
     </form>
-
-    <h1>se connecter avec userId</h1>
-    <form>
-      <div>
-        <label>id</label>
-        <input type="text" name="idUser" v-model="userId" />
-      </div>
-
-      <input
-        class="submit_button"
-        type="submit"
-        value="submit"
-        @click.prevent="submit"
-      />
-    </form>
-    <div>
-      {{ user.username }}
-    </div>
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export default {
@@ -45,16 +32,21 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    const userId = ref();
-    const user = computed(() => store.getters["getUser"]);
+    const username = ref("");
+    const email = ref("");
 
     const submit = () => {
-      store.dispatch("login", userId.value);
-      router.push({ name: "dashboard" });
-      userId.value = "";
+      const payload = {
+        username: username.value,
+        email: email.value,
+      };
+      store.dispatch("login", payload);
+      router.push({ name: "Dashboard" });
+      username.value = "";
+      email.value = "";
     };
 
-    return { submit, userId, user };
+    return { submit, username, email };
   },
 };
 </script>

@@ -1,23 +1,24 @@
 <template>
   <div>
-    <p>dashboard</p>
-    <p>{{ user }}</p>
-    <User />
+    <h1>Dashboard</h1>
+    <div v-if="user">
+      <p>User Infos</p>
+      <p>Name: {{ user.username }}</p>
+      <p>Email: {{ user.email }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import User from "../components/User.vue";
+// import User from "../components/User.vue";
 export default {
-  components: { User },
+  components: {},
   name: "UserDashboard",
   setup() {
     const store = useStore();
     const user = computed(() => store.getters["getUser"]);
-
-    console.log("user", user);
     return { user };
   },
 };

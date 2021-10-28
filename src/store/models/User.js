@@ -4,23 +4,17 @@ const API_URL = "http://localhost:4000/api/users";
 export const users = {
   namespace: true,
   state: {
-    users: [],
-    user: {},
+    users: null,
+    user: null,
   },
 
   getters: {
     getUser: (state) => state.user,
     getUsers: (state) => state.users,
-    // getUser = (state, id) {
-    //    state.users.map((user) => {
-    //     if (user.id = id)
-    //       return user
-    //   })
-    // }
   },
 
   mutations: {
-    setUser: (state, data) => (state.users = data),
+    setUser: (state, data) => (state.user = data),
     setUsers: (state, data) => (state.users = data),
   },
 
@@ -36,20 +30,22 @@ export const users = {
         console.error(e);
       }
     },
-
-    async login({ commit }, id) {
+    async login({ commit }, { username, email }) {
       try {
-        let data = await axios.get(`${API_URL}/${id}`).then((res) => {
-          return res.data.data;
-        });
-        console.log(data);
-        commit("setUser", data);
+        let user = await axios
+          .get(`${API_URL}?username=${username}&email=${email}`)
+          .then((res) => {
+            return res.data.data;
+          });
 
-        // if (data.lenght) dispatch("getUser", data);
+        if (user !== null) {
+          commit("setUser", user);
+        }
       } catch (e) {
         console.error(e);
       }
     },
+
     async register({ dispatch }, userData) {
       try {
         let data = await axios

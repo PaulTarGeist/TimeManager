@@ -5,10 +5,7 @@
 <script>
 export default {
   name: "NotFound",
-  setup() {
-    return {};
-  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
