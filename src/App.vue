@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <User/>
-  </div>
+  <main>
+    <div>
+      <router-link to="/">Login</router-link> |
+      <router-link to="/register">Register</router-link>
+    </div>
+    <router-view />
+  </main>
 </template>
 
 <script>
-import User from './components/User.vue'
 import { useStore } from "vuex";
 
 export default {
-  components: { User },
-  setup () {
-     const store = useStore();
+  components: {},
+  setup() {
+    const store = useStore();
     store.dispatch("loadUsers");
 
-    return {}
-  }
-}
+    return {};
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

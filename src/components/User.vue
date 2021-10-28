@@ -22,8 +22,8 @@ export default {
   name: "User",
   setup() {
     const store = useStore();
-
-    const users = computed(() => store.getters["getUsers"]);
+    store.dispatch("loadUsers");
+    const users = computed(() => store.getters.getUsers);
 
     return { users };
   },
