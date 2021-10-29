@@ -5,6 +5,8 @@ defmodule Apiproject.Users.User do
   schema "users" do
     field :email, :string
     field :username, :string
+    has_many :workingtime, Apiproject.Workingtimes.Workingtime
+    has_many :clock, Apiproject.Clocks.Clock
 
     timestamps()
   end

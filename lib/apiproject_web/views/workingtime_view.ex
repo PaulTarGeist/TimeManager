@@ -14,8 +14,7 @@ defmodule ApiprojectWeb.WorkingtimeView do
     %{
       id: workingtime.id,
       start: workingtime.start,
-      end: workingtime.end,
-      user: workingtime.user
+      end: workingtime.end
     }
   end
 end

@@ -3,13 +3,11 @@ defmodule Apiproject.Repo.Migrations.CreateWorkingtimes do
 
   def change do
     create table(:workingtimes) do
-      add :start, :utc_datetime, null: false
-      add :end, :utc_datetime, null: false
-      add :user, references(:users, on_delete: :nothing), null: false
+      add :start, :naive_datetime, null: false
+      add :end, :naive_datetime, null: false
+      add :userId, references(:users), null: false
 
       timestamps()
     end
-
-    create index(:workingtimes, [:user])
   end
 end

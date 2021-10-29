@@ -3,6 +3,7 @@ defmodule Apiproject.Workingtimes do
   The Workingtimes context.
   """
 
+  require Logger
   import Ecto.Query, warn: false
   alias Apiproject.Repo
 
@@ -38,8 +39,14 @@ defmodule Apiproject.Workingtimes do
   def get_workingtime!(id), do: Repo.get!(Workingtime, id)
 
 
-  def get_user_by_userId_startDate_endDate!(userId, startDate, endDate), do:
-  Repo.get_by(Workingtime, [user: userId, start: startDate, end: endDate],  prefix: "public")
+  def get_workingtimeAll!(start, ended, userId), do:
+    Repo.all(
+      from(u in Workingtime,
+      where: u.userId == ^userId and u.start >= ^start and u.end <= ^ended,
+      preload: [:user]
+      )
+  )
+  # Repo.get_by(Workingtime, [userId: userId, start: start, end: ended])
   @doc """
   Creates a workingtime.
 
@@ -101,6 +108,11 @@ defmodule Apiproject.Workingtimes do
       %Ecto.Changeset{data: %Workingtime{}}
 
   """
+
+  # def getWorkingtimeByUser(userId, startDate, endDate) do
+  #   Repo.get_by(Workingtime, [user: userId, start: startDate, end: endDate])
+  # end
+
   def change_workingtime(%Workingtime{} = workingtime, attrs \\ %{}) do
     Workingtime.changeset(workingtime, attrs)
   end
