@@ -32,7 +32,5 @@ apiproject-*.tar
 npm-debug.log
 /assets/node_modules/
 
-/src/node_modules
-/node_modules
-
-backend/_build
+/src/node_modules/
+/node_modules/
