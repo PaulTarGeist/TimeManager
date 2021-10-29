@@ -40,8 +40,11 @@ export default {
         username: username.value,
         email: email.value,
       };
-      store.dispatch("login", payload);
-      router.push({ name: "Dashboard" });
+
+      store.dispatch("login", payload).then(() => {
+        router.replace("/dashboard");
+      });
+
       username.value = "";
       email.value = "";
     };

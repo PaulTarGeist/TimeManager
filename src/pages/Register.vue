@@ -35,8 +35,8 @@ export default {
 
     const submit = () => {
       const userData = {
-        username: username.value,
-        email: email.value,
+        username: username.value.toLowerCase().trim(),
+        email: email.value.toLowerCase().trim(),
       };
 
       store.dispatch("register", userData);
