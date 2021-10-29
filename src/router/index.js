@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserDashboard from "../pages/UserDashboard";
 import NotFound from "../pages/NotFound";
+import WorkingtimeChart from "../components/WorkingtimeChart";
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: "/:catchAll(.*)",
     name: "NotFound",
     component: NotFound,
+  },
+  {
+    path: "/workingtimeChart",
+    name: "WorkingtimeChart",
+    component: WorkingtimeChart
   },
 ];
 
