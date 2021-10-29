@@ -1,8 +1,15 @@
 <template>
   <main>
-    <div>
-      <router-link :to="{ name: 'Login' }">Login</router-link> |
-      <router-link :to="{ name: 'Register' }">Register</router-link>
+    <div class="nav">
+      <div>
+        <router-link :to="{ name: 'Login' }">Login</router-link>
+      </div>
+      <div>
+        <router-link :to="{ name: 'Register' }">Register</router-link>
+      </div>
+      <div>
+        <router-link :to="{ name: 'AllUsers' }">User list</router-link>
+      </div>
     </div>
     <router-view />
   </main>
@@ -22,4 +29,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.nav {
+  width: 100%;
+  height: 2.5em;
+  background-color: grey;
+  display: flex;
+  justify-content: space-evenly;
+  justify-items: center;
+}
+</style>

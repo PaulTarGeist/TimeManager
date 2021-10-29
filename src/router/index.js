@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UserDashboard from "../pages/UserDashboard";
+import AllUsers from "../pages/AllUsers";
 import NotFound from "../pages/NotFound";
 
 const routes = [
@@ -23,6 +24,11 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: UserDashboard,
+  },
+  {
+    path: "/allUsers",
+    name: "AllUsers",
+    component: AllUsers,
   },
   {
     path: "/:catchAll(.*)",

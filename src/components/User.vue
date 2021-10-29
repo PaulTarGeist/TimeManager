@@ -5,10 +5,12 @@
       <tr>
         <td>Name</td>
         <td>Email</td>
+        <td>&nbsp;</td>
       </tr>
       <tr v-for="user in users" :key="user.id">
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
+        <td @click.prevent="deleteUser(user.id)" class="deleteUser">delete</td>
       </tr>
     </table>
   </div>
@@ -25,9 +27,18 @@ export default {
     store.dispatch("loadUsers");
     const users = computed(() => store.getters.getUsers);
 
-    return { users };
+    const deleteUser = (id) => {
+      console.log(id);
+      store.dispatch("deleteUser", id);
+    };
+
+    return { deleteUser, users };
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.deleteUser {
+  cursor: pointer;
+}
+</style>

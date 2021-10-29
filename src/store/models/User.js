@@ -60,5 +60,12 @@ export const users = {
         console.error(e);
       }
     },
+
+    async deleteUser({ dispatch }, id) {
+      await axios.delete(`${API_URL}/${id}`).then((res) => {
+        console.log(res);
+      });
+      dispatch("loadUsers");
+    },
   },
 };
