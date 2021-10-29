@@ -57,6 +57,14 @@ defmodule Apiproject.Clocks do
     |> Repo.insert()
   end
 
+  def getAllClockByUser(userId), do:
+    Repo.all(
+      from(u in Clock,
+        where: u.userId == ^userId,
+        preload: [:user]
+      )
+    )
+
   @doc """
   Updates a clock.
 

@@ -6,18 +6,19 @@ defmodule ApiprojectWeb.ClockController do
 
   action_fallback ApiprojectWeb.FallbackController
 
-  def index(conn,  %{"userId" => userId}) do
-    clock = Clocks.get_by_user_id!(userId)
-    render(conn, "show.json", clock: clock)
-  end
 
   def index(conn, _params) do
     clocks = Clocks.list_clocks()
     render(conn, "index.json", clocks: clocks)
   end
 
-  def create(conn, %{"clock" => clock_params}) do
-    with {:ok, %Clock{} = clock} <- Clocks.create_clock(clock_params) do
+  def showAll(conn, %{"userID" => userId}) do
+    clock = Clocks.getAllClockByUser(userId)
+    render(conn, "index.json", clocks: clock)
+  end
+
+  def create(conn, %{"userID" => userId, "time" => time, "status" => status}) do
+    with {:ok, %Clock{} = clock} <- Clocks.create_clock(%{"userId" => userId, "time" => time, "status" => status}) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.clock_path(conn, :show, clock))
@@ -30,19 +31,5 @@ defmodule ApiprojectWeb.ClockController do
     render(conn, "show.json", clock: clock)
   end
 
-  def update(conn, %{"id" => id, "clock" => clock_params}) do
-    clock = Clocks.get_clock!(id)
 
-    with {:ok, %Clock{} = clock} <- Clocks.update_clock(clock, clock_params) do
-      render(conn, "show.json", clock: clock)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    clock = Clocks.get_clock!(id)
-
-    with {:ok, %Clock{}} <- Clocks.delete_clock(clock) do
-      send_resp(conn, :no_content, "")
-    end
-  end
 end
