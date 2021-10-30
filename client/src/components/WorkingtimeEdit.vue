@@ -30,9 +30,10 @@ import { computed } from "vue";
 export default {
   name: "WorkingtimeEdit",
   setup() {
-    const store = useStore();
-    const workingtime = computed(() => store.getters.getWorkingtime, 1);
-    console.log(workingtime)
+    const store       = useStore();
+    const user        = computed(() => store.getters.getUser);
+    const workingtime = computed(() => store.getters.getWorkingtime, user.value.id, 4);
+
     let start = ref("");
     let end   = ref("");
 
@@ -44,8 +45,7 @@ export default {
       const workingtimeData = {
         start   : start.value,
         end     : end.value,
-        userId : 1
-        //userId  : store.getUser().id
+        userId  : user.value.id
       };
     
       store.dispatch("editWorkingtime", workingtimeData);
