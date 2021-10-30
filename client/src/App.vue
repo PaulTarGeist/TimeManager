@@ -1,15 +1,32 @@
 <template>
   <main>
     <div class="nav">
-      <div>
-        <router-link :to="{ name: 'Login' }">Login</router-link>
-      </div>
-      <div>
-        <router-link :to="{ name: 'Register' }">Register</router-link>
-      </div>
-      <div>
-        <router-link :to="{ name: 'AllUsers' }">User list</router-link>
-      </div>
+      <ul>
+        <li v-if="!user">
+          <router-link :to="{ name: 'Login' }">Login</router-link>
+        </li>
+        <li v-if="!user">
+          <router-link :to="{ name: 'Register' }">Register</router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'AllUsers' }">User list</router-link>
+        </li>
+        <li v-if="user">
+          <router-link :to="{ name: 'WorkingtimeEdit' }">Créer un workingtime</router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'AllWorkingtimes' }">Liste des workingtimes</router-link>
+        </li>
+        <li v-if="user">
+          <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
+        </li>
+        <li v-if="user">
+          <router-link :to="{ name: 'WorkingtimeChart' }">WorkingtimeChart</router-link>
+        </li>
+        <li v-if="user">
+          <router-link to="/" @click="logout"> Logout </router-link>
+        </li>
+      </ul>
     </div>
     <router-view />
   </main>
@@ -17,14 +34,21 @@
 
 <script>
 import { useStore } from "vuex";
+import { computed } from "@vue/reactivity";
 
 export default {
   components: {},
   setup() {
     const store = useStore();
-    store.dispatch("loadUsers");
+    const user = computed(() => store.getters.getUser);
+    const logout = () => {
+      store.dispatch("logout");
+    };
 
-    return {};
+    return {
+      user: user !== null ? user : null,
+      logout,
+    };
   },
 };
 </script>

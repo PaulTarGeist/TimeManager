@@ -1,10 +1,13 @@
 <template>
-  <div>WorkingTime</div>
+  <div>
+    <Workingtimes />
+  </div>
 </template>
 
 <script>
+import Workingtimes from "../components/Workingtimes.vue";
 export default {
-  name: "WorkingTime",
+  components: { Workingtimes },
   setup() {
     return {};
   },

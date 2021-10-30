@@ -4,12 +4,15 @@ import Register from "../pages/Register";
 import UserDashboard from "../pages/UserDashboard";
 import AllUsers from "../pages/AllUsers";
 import NotFound from "../pages/NotFound";
-import WorkingtimeChart from "../components/WorkingtimeChart";
+import WorkingtimeChart from "../pages/WorkingtimeChart";
+import AllWorkingtimes from "../pages/AllWorkingtimes";
+import WorkingtimeEdit from "../pages/WorkingtimeEdit";
+const user = JSON.parse(localStorage.getItem("user"));
 
 const routes = [
   {
     path: "/",
-    redirect: "/login",
+    redirect: user ? "/dashboard" : "/login",
   },
   {
     path: "/login",
@@ -41,11 +44,32 @@ const routes = [
     name: "WorkingtimeChart",
     component: WorkingtimeChart
   },
-];
-
+  {
+    path: "/allWorkingtimes",
+    name: "AllWorkingtimes",
+    component: AllWorkingtimes
+  },
+  {
+    path: "/workingtimeEdit/:userId?/:workingtimeId?",
+    name: "WorkingtimeEdit",
+    component: WorkingtimeEdit
+  }
+]
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ["/login", "/register", "/allUsers"];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem("user");
+
+  if (authRequired && !loggedIn) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;

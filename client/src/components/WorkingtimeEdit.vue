@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h1>S'inscrire</h1>
-    <form id="createUserForm">
+    <h1>Créer un workingtime</h1>
+    <form id="createWorkingtimeForm">
       <div>
-        <label>Username</label>
-        <input type="text" v-model="username" />
+        <label for="workingtime_start">Date de début</label>
+        <input id="workingtime_start" type="datetime-local" v-model="start" />
       </div>
       <div>
-        <label>Email</label>
-        <input type="text" v-model="email" />
+        <label for="workingtime_end">Date de fin</label>
+        <input id="workingtime_end" type="datetime-local" v-model="end" />
       </div>
       <div>
         <input
@@ -25,48 +25,40 @@
 <script>
 import { ref } from "vue";
 import { useStore } from "vuex";
+import { computed } from "vue";
 
 export default {
-  name: "Register",
+  name: "WorkingtimeEdit",
   setup() {
     const store = useStore();
-    const username = ref("");
-    const email = ref("");
+    const workingtime = computed(() => store.getters.getWorkingtime, 1);
+    console.log(workingtime)
+    let start = ref("");
+    let end   = ref("");
 
+    if (workingtime.value) {
+      console.log('temp');
+    }
+   
     const submit = () => {
-      const userData = {
-        username: username.value.toLowerCase().trim(),
-        email: email.value.toLowerCase().trim(),
+      const workingtimeData = {
+        start   : start.value,
+        end     : end.value,
+        userId : 1
+        //userId  : store.getUser().id
       };
-
-      store.dispatch("register", userData);
-      username.value = "";
-      email.value = "";
+    
+      store.dispatch("editWorkingtime", workingtimeData);
+      start.value = "";
+      end.value   = "";
     };
 
-    return { submit, username, email };
+    return { submit, start, end };
   },
 };
 </script>
 
 <style scoped>
-.UserView {
-  width: 100vw;
-  height: 90vh;
-  background: #f9f7f3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.connectionPanel,
-.informationPanel {
-  width: 40%;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 5px 5px 3px -3px rgba(0, 0, 0, 0.2);
-}
-
 form {
   display: flex;
   justify-content: center;
@@ -108,12 +100,6 @@ form input[type="text"] {
   width: 70%;
   border: 1px solid grey;
   height: 30px;
-  margin: 10px;
-}
-
-.switchButton {
-  cursor: pointer;
-  font-size: 12px;
   margin: 10px;
 }
 </style>

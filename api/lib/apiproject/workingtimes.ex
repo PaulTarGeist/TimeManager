@@ -38,6 +38,13 @@ defmodule Apiproject.Workingtimes do
   """
   def get_workingtime!(id), do: Repo.get!(Workingtime, id)
 
+  def get_workingtimeAllByUserId!(userId), do:
+  Repo.all(
+    from(u in Workingtime,
+    where: u.userId == ^userId,
+    preload: [:user]
+    )
+  )
 
   def get_workingtimeAll!(start, ended, userId), do:
     Repo.all(

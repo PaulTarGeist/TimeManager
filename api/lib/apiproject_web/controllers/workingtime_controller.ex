@@ -17,6 +17,11 @@ defmodule ApiprojectWeb.WorkingtimeController do
     render(conn, "index.json", workingtimes: workingtimes)
   end
 
+  def showAllByUserId(conn, %{"userID" => userId}) do
+    workingtime = Workingtimes.get_workingtimeAllByUserId!(userId)
+    render(conn, "index.json", workingtimes: workingtime)
+  end
+
   def showAll(conn, %{"userID" => userId, "start" => start, "end" => ended}) do
     Logger.warn(Timex.parse!(start, "{YYYY}-{0M}-{0D} {h24}:{m}:{s}"))
     workingtime = Workingtimes.get_workingtimeAll!(Timex.parse!(start,"{YYYY}-{0M}-{0D} {h24}:{m}:{s}"), Timex.parse!(ended,"{YYYY}-{0M}-{0D} {h24}:{m}:{s}"), userId)

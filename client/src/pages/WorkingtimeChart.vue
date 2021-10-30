@@ -1,28 +1,26 @@
 <template>
     <section>
     <h1>Workingtime Charts</h1>
-
     <form>
         <div class="form-group">
-        <label for="start">Date de début:</label>
-        <input type="date" id="start" name="start" />
+          <label for="start">Date de début:</label>
+          <input type="datetime-local" id="start" name="start" v-model="start" />
         </div>
         <div class="form-group">
-        <label for="end">Date de fin:</label>
-        <input type="date" id="start" name="end" />
+          <label for="end">Date de fin:</label>
+          <input type="datetime-local" id="end" name="end" v-model="end" />
         </div>
         <div class="form-group">
-        <input v-on:click="todo()" class="btn btn-primary mr-1" type="button" value="Rechercher" />
+          <input v-on:click="todo()" class="btn btn-primary mr-1" type="button" value="Rechercher" />
         </div>
     </form>
-
     <div>
         <canvas id="workingtime-line-chart"></canvas>
     </div>
     <div>
         <canvas id="workingtime-bar-chart"></canvas>
     </div>
-        <div>
+    <div>
         <canvas id="workingtime-doughnut-chart"></canvas>
     </div>
     </section>
@@ -30,13 +28,16 @@
 
 <script>
 import Chart from 'chart.js'
+//import { useStore } from "vuex";
+//import { computed } from "vue";
 import workingtimeLineChartData from '../chart/workingtime-line-data.js'
 import workingtimeBarChartData from '../chart/workingtime-bar-data.js'
 import workingtimeDoughnutChartData from '../chart/workingtime-doughnut-data.js'
 import moment from 'moment'
+//import { ref } from "vue";
 
 export default {
-  name: 'workingtimeChartData',
+  name: 'workingtimeChart',
   data() {
     return {
       workingtimeLineChartData: workingtimeLineChartData,
@@ -44,11 +45,24 @@ export default {
       workingtimeDoughnutChartData: workingtimeDoughnutChartData
     }
   },
+  setup() {
+    //const store = useStore();
+  },
   mounted() {
-    let ctxLine     = document.getElementById('workingtime-line-chart');
-    let ctxBar      = document.getElementById('workingtime-bar-chart');
-    let ctxDoughnut = document.getElementById('workingtime-doughnut-chart');  
-    const mock_working_time = [
+    const ctxLine     = document.getElementById('workingtime-line-chart');
+    const ctxBar      = document.getElementById('workingtime-bar-chart');
+    const ctxDoughnut = document.getElementById('workingtime-doughnut-chart');  
+  
+    //const store         = useStore();
+    //const userId        = 1 // @TODO, get from store obect
+    //const start         = ref("");
+    //const end           = ref("");
+    //store.dispatch("loadWorkingtimes");
+    //const workingtimes  = computed(() => store.getters.getWorkingtimes(start, end, userId));
+
+
+    
+    const workingtimes = [
       {
         'start' : '2021-01-01 09:17:00',
         'end' : '2021-01-01 23:01:00'
@@ -66,27 +80,29 @@ export default {
         'end' : '2021-01-06 23:33:00'
       }
     ]
+    
     /**
      * Line Chart
      */
-    this.initChart(mock_working_time, this.workingtimeLineChartData)
+    this.initChart(workingtimes, this.workingtimeLineChartData)
     new Chart(ctxLine, workingtimeLineChartData);
   
     /**
      * Bar Chart
      */
-    this.initChart(mock_working_time, this.workingtimeBarChartData)
+    this.initChart(workingtimes, this.workingtimeBarChartData)
     new Chart(ctxBar, workingtimeBarChartData);
+
     /**
      * Doughnut Chart
      */
-    this.initChart(mock_working_time, this.workingtimeDoughnutChartData, true)  
+    this.initChart(workingtimes, this.workingtimeDoughnutChartData, true)  
     new Chart(ctxDoughnut, workingtimeDoughnutChartData);
   }, 
   methods: {
-    initChart(mock_working_time, chartData, doughnut = false) {
+    initChart(workingtimes, chartData, doughnut = false) {
       chartData.data.labels = [];
-      mock_working_time.forEach((item) => {
+      workingtimes.forEach((item) => {
         let start   = moment(item.start);
         let end     = moment(item.end);
         let diff    = moment.duration(end.diff(start));

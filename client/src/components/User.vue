@@ -28,7 +28,6 @@ export default {
     const users = computed(() => store.getters.getUsers);
 
     const deleteUser = (id) => {
-      console.log(id);
       store.dispatch("deleteUser", id);
     };
 
