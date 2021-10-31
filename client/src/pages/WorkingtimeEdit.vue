@@ -1,13 +1,13 @@
 <template>
   <div>
-    <UsersList />
+    <WorkingtimeEdit />
   </div>
 </template>
 
 <script>
-import UsersList from "../components/UsersList.vue";
+import WorkingtimeEdit from "../components/WorkingtimeEdit.vue";
 export default {
-  components: { UsersList },
+  components: { WorkingtimeEdit },
   setup() {
     return {};
   },

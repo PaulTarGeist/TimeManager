@@ -1,15 +1,7 @@
 <template>
-  <main>
-    <div class="nav">
-      <div>
-        <router-link :to="{ name: 'Login' }">Login</router-link>
-      </div>
-      <div>
-        <router-link :to="{ name: 'Register' }">Register</router-link>
-      </div>
-      <div>
-        <router-link :to="{ name: 'AllUsers' }">User list</router-link>
-      </div>
+  <main class="px-4">
+    <div class="mb-4">
+      <Navbar :user="user" :logout="logout" />
     </div>
     <router-view />
   </main>
@@ -17,20 +9,28 @@
 
 <script>
 import { useStore } from "vuex";
+import { computed } from "@vue/reactivity";
+import Navbar from "./components/Navbar.vue";
 
 export default {
-  components: {},
+  components: { Navbar },
   setup() {
     const store = useStore();
-    store.dispatch("loadUsers");
+    const user = computed(() => store.getters.getUser);
+    const logout = () => {
+      store.dispatch("logout");
+    };
 
-    return {};
+    return {
+      user: user !== null ? user : null,
+      logout,
+    };
   },
 };
 </script>
 
 <style>
-#app {
+html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
