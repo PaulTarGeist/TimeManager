@@ -1,13 +1,13 @@
 <template>
   <div>
-    <User />
+    <UsersList />
   </div>
 </template>
 
 <script>
-import User from "../components/User.vue";
+import UsersList from "../components/UsersList.vue";
 export default {
-  components: { User },
+  components: { UsersList },
   setup() {
     return {};
   },
