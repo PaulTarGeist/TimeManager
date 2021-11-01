@@ -10,8 +10,7 @@
       <tr v-for="workingtime in workingtimes" :key="workingtime.id">
         <td>{{ workingtime.start }}</td>
         <td>{{ workingtime.end }}</td>
-        <router-link :to="{ name: 'WorkingtimeEdit', query:{userId: 1, workingtimeId : workingtime.id} }">Editer</router-link>
-        <!-- <td @click.prevent="deleteWorkingtime(workingtime.id)" class="deleteWorkingtime">Supprimer</td> -->
+        <router-link :to="{ name: 'WorkingtimeEdit', query:{userId: userId, workingtimeId : workingtime.id} }">Editer</router-link>
       </tr>
     </table>
   </div>
@@ -25,14 +24,12 @@ export default {
   name: "Workingtimes",
   setup() {
     const store = useStore();
-    store.dispatch("loadWorkingtimes", 1);
+    const user  = computed(() => store.getters.getUser);
+    store.dispatch("loadWorkingtimes", user.value.id);
+    const userId = user.value.id;
     const workingtimes = computed(() => store.getters.getWorkingtimes);
 
-    const deleteWorkingtime = (id) => {
-      store.dispatch("deleteWorkingtime", id);
-    };
-
-    return { deleteWorkingtime, workingtimes };
+    return { workingtimes, userId };
   },
 };
 </script>
