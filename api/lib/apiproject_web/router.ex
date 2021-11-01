@@ -19,20 +19,14 @@ defmodule ApiprojectWeb.Router do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
     # resources "/clocks", ClockController, except: [:new, :edit]
-    scope "/clocks" do
-      get "/:userID", ClockController, :showAll
-      post "/:userID", ClockController, :create
-    end
 
     # resources "/workingtimes", WorkingtimeController, only: [:show, :update, :delete]
     # get "/workingtimes/:userID", WorkingtimeController, :showByUser
     # post "/workingtimes/:userID", WorkingtimeController, :createByUser
     scope "/workingtimes" do
-      get "/:userID", WorkingtimeController, :showAllByUserId
       get "/:userID", WorkingtimeController, :showAll
       post "/:userID", WorkingtimeController, :create
       get "/:id", WorkingtimeController, :show
-      get "/:userID/:id", WorkingtimeController, :show
       put "/:id", WorkingtimeController, :update
       delete "/:id", WorkingtimeController, :delete
     end

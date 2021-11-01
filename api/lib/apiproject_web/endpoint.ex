@@ -47,7 +47,7 @@ defmodule ApiprojectWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug CORSPlug,
-    origins: ["http://localhost:8081", "http://localhost:8080"],
+    origins: ["http://localhost:8081", ],
     allow_headers: ["accept", "content-type", "authorization"],
     allow_credentials: true,
     log: [rejected: :error, invalid: :warn, accepted: :debug]
