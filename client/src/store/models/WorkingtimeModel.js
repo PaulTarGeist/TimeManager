@@ -3,7 +3,8 @@ const API_URL = "http://localhost:4000/api/workingtimes";
 
 export const workingtimes = { 
     state: {
-        workingtimes: null
+        workingtimes: null,
+        workingtime:  null
     },
 
     getters: {
@@ -17,9 +18,9 @@ export const workingtimes = {
     }, 
 
     actions: {
-        async loadWorkingtimes({ commit }, id) {
+        async loadWorkingtimes({ commit }, userId) {
             try {
-              let data = await axios.get(`${API_URL}/${id}`).then((res) => {
+              let data = await axios.get(`${API_URL}/${userId}`).then((res) => {
                 return res.data.data;
               });
       
@@ -29,11 +30,41 @@ export const workingtimes = {
             }
         },
 
-        async editWorkingtime({ dispatch }, workingtimeData) {
+        async loadWorkingtimesByDate({ commit }, workingtimeData) {
+          try {
+            let data = await axios.get(`${API_URL}/${workingtimeData.userId}`, { workingtime : workingtimeData}).then((res) => {
+              return res.data.data;
+            });
+    
+            commit("setWorkingtimes", data);
+          } catch (e) {
+            console.error(e);
+          }
+        },
+
+        /**
+         * @TODO workingtimeId is undefined
+         */
+        async loadWorkingtime({ commit }, { userId, workingtimeId }) {
+
+          try {
+            const data =  await axios.get(`${API_URL}/${userId}/${workingtimeId}`).then((res) => { 
+              return res.data.data 
+            })
+
+            commit("setWorkingtime", data);
+
+          } catch (e) {
+            console.error(e);
+          }
+        },
+
+        async createWorkingtime({ dispatch }, workingtimeData) {
             try {
               let data = await axios
                 .post(`${API_URL}/${workingtimeData.userId}`, { workingtime: workingtimeData })
                 .then((res) => {
+                  console.log("Workingtime crée");
                   return res.data.data;
                 });
       
@@ -41,6 +72,17 @@ export const workingtimes = {
             } catch (e) {
               console.error(e);
             }
+        },
+
+        async updateWorkingtime({ commit }, {userId, start, end}) {
+          let data = await axios
+            .put(`${API_URL}/${userId}`, { workingtime: { start, end }})
+            .then((res) => {
+              console.log("Workingtime modifié");
+              return res.data.data;
+            });
+
+          commit("setWworkingtime", data);
         },
 
         async deleteWorkingtime({ dispatch }, id) {

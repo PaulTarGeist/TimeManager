@@ -1,10 +1,13 @@
 <template>
   <div>
-    <h1>Créer un workingtime</h1>
-    <form id="createWorkingtimeForm">
+    <h1 v-if="workingtime">Edition un workingtime</h1>
+    <h1 v-else>Créer un workingtime</h1>
+    {{workingtime}}
+    <!--
+      <form id="createWorkingtimeForm">
       <div>
         <label for="workingtime_start">Date de début</label>
-        <input id="workingtime_start" type="datetime-local" v-model="start" />
+        <input id="workingtime_start" type="datetime-local" v-model="start" /> zefezfez
       </div>
       <div>
         <label for="workingtime_end">Date de fin</label>
@@ -18,43 +21,24 @@
           @click.prevent="submit"
         />
       </div>
+      <button v-if="workingtime" @click.prevent="deleteWorkingtime(workingtime.id)" value="Supprimer" />
     </form>
+  -->
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import { useStore } from "vuex";
-import { computed } from "vue";
 
 export default {
-  name: "WorkingtimeEdit",
+  name: "Edit",
+  props: { workingtime: Object },
   setup() {
-    const store       = useStore();
-    const user        = computed(() => store.getters.getUser);
-    const workingtime = computed(() => store.getters.getWorkingtime, user.value.id, 4);
 
-    let start = ref("");
-    let end   = ref("");
 
-    if (workingtime.value) {
-      console.log('temp');
-    }
-   
-    const submit = () => {
-      const workingtimeData = {
-        start   : start.value,
-        end     : end.value,
-        userId  : user.value.id
-      };
-    
-      store.dispatch("editWorkingtime", workingtimeData);
-      start.value = "";
-      end.value   = "";
-    };
-
-    return { submit, start, end };
-  },
+    /*
+    return {};
+    */
+  }
 };
 </script>
 

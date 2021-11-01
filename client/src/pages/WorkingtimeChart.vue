@@ -28,13 +28,13 @@
 
 <script>
 import Chart from 'chart.js'
-//import { useStore } from "vuex";
-//import { computed } from "vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import workingtimeLineChartData from '../chart/workingtime-line-data.js'
 import workingtimeBarChartData from '../chart/workingtime-bar-data.js'
 import workingtimeDoughnutChartData from '../chart/workingtime-doughnut-data.js'
 import moment from 'moment'
-//import { ref } from "vue";
+import { ref } from "vue";
 
 export default {
   name: 'workingtimeChart',
@@ -45,58 +45,50 @@ export default {
       workingtimeDoughnutChartData: workingtimeDoughnutChartData
     }
   },
-  setup() {
-    //const store = useStore();
-  },
   mounted() {
     const ctxLine     = document.getElementById('workingtime-line-chart');
     const ctxBar      = document.getElementById('workingtime-bar-chart');
     const ctxDoughnut = document.getElementById('workingtime-doughnut-chart');  
   
-    //const store         = useStore();
-    //const userId        = 1 // @TODO, get from store obect
-    //const start         = ref("");
-    //const end           = ref("");
-    //store.dispatch("loadWorkingtimes");
-    //const workingtimes  = computed(() => store.getters.getWorkingtimes(start, end, userId));
+    const store         = useStore();
+    const user          = computed(() => store.getters.getUser);
+    const start         = ref("");
+    const end           = ref("");
 
+    const workingtimeData = {
+      start   : start,
+      end     : end,
+      userId  : user.value.id
+    }
 
-    
-    const workingtimes = [
-      {
-        'start' : '2021-01-01 09:17:00',
-        'end' : '2021-01-01 23:01:00'
-      },
-        {
-        'start' : '2021-01-02 09:30:00',
-        'end' : '2021-01-02 23:12:00'
-      },
-      {
-        'start' : '2021-01-03 11:20:00',
-        'end' : '2021-01-03 22:25:00'
-      },
-      {
-        'start' : '2021-01-06 08:15:00',
-        'end' : '2021-01-06 23:33:00'
-      }
-    ]
-    
+    /**
+     * @TODO
+     */
+    store.dispatch("loadWorkingtimesByDate", workingtimeData);
+    const workingtimes  = computed(() => store.getters.getWorkingtimes);
+
+    console.log("user")
+    console.log(user)
+
+    console.log("workingtimes")
+    console.log(workingtimes)
+
     /**
      * Line Chart
      */
-    this.initChart(workingtimes, this.workingtimeLineChartData)
+    this.initChart(workingtimes.value, this.workingtimeLineChartData)
     new Chart(ctxLine, workingtimeLineChartData);
   
     /**
      * Bar Chart
      */
-    this.initChart(workingtimes, this.workingtimeBarChartData)
+    this.initChart(workingtimes.value, this.workingtimeBarChartData)
     new Chart(ctxBar, workingtimeBarChartData);
 
     /**
      * Doughnut Chart
      */
-    this.initChart(workingtimes, this.workingtimeDoughnutChartData, true)  
+    this.initChart(workingtimes.value, this.workingtimeDoughnutChartData, true)  
     new Chart(ctxDoughnut, workingtimeDoughnutChartData);
   }, 
   methods: {
