@@ -1,11 +1,11 @@
-import Config
+use Mix.Config
 
 # Configure your database
 config :apiproject, Apiproject.Repo,
   username: "postgres",
-  password: "0504",
+  password: "postgres",
   database: "apiproject_dev",
-  hostname: "localhost",
+  hostname: "db",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -14,19 +14,13 @@ config :apiproject, Apiproject.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with esbuild to bundle .js and .css sources.
+# with webpack to recompile .js and .css sources.
 config :apiproject, ApiprojectWeb.Endpoint,
-  # Binding to loopback ipv4 address prevents access from other machines.
-  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
-  code_reloader: true,
+  http: [port: 4000],
   debug_errors: true,
-  secret_key_base: "l0pnqj8F27FdHVH4pilU1RMkx1q4sG09PXVXa0/Gzk0VzjBR2Zi2tE/RPMA18lh3",
-  watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
-  ]
+  code_reloader: true,
+  check_origin: false,
+  watchers: []
 
 # ## SSL Support
 #
@@ -51,17 +45,6 @@ config :apiproject, ApiprojectWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
-
-# Watch static and templates for browser reloading.
-config :apiproject, ApiprojectWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/apiproject_web/(live|views)/.*(ex)$",
-      ~r"lib/apiproject_web/templates/.*(eex)$"
-    ]
-  ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
