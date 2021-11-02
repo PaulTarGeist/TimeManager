@@ -1,31 +1,30 @@
-version : "3.8"
+version: "3.8"
 services:
-    back:
-        container_name: apiproject_back
-        image: apiproject/back
-        build:
-            context: ./api
-        environment:
-            PGUSER: postgres
-            PGPASSWORD: postgres
-            PGDATABASE: apiproject_dev
-            PGPORT: 5432
-            PGHOST: db
-        ports:
-            - "4000:4000"
-        depends_on:
-            - db
-    db:
-        container_name: apiproject_db
-        image: postgres:12.8
-        environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            PGDATA: /var/lib/postgresql/data/pgdata
-        volumes:
-            - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
-            - "dbdata:/var/lib/postgresql/data"
-        restart: always
+  back:
+    container_name: apiproject_back
+    image: apiproject/back
+    build:
+      context: ./api
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: apiproject_dev
+      PGPORT: 5432
+      PGHOST: db
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+  db:
+    container_name: apiproject_db
+    image: postgres:13.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+      - "dbdata:/var/lib/postgresql/data"
+    restart: always
 volumes:
-    dbdata:
-
+  dbdata:
