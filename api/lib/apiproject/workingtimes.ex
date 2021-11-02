@@ -46,6 +46,9 @@ defmodule Apiproject.Workingtimes do
       preload: [:user]
       )
   )
+
+  def getOneWorkingtimeForUser(userId, working_time_id), do:
+    Repo.get_by(Workingtime, userId, working_time_id)
   # Repo.get_by(Workingtime, [userId: userId, start: start, end: ended])
   @doc """
   Creates a workingtime.
@@ -82,6 +85,7 @@ defmodule Apiproject.Workingtimes do
     |> Workingtime.changeset(attrs)
     |> Repo.update()
   end
+
 
   @doc """
   Deletes a workingtime.
