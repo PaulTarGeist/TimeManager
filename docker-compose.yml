@@ -15,9 +15,19 @@ services:
       - "4000:4000"
     depends_on:
       - db
+  front:
+    container_name: apiprojet_front
+    image: apiproject/front
+    build:
+      context: ./client
+    ports:
+      - "8080:8080"
+    depends_on:
+      - back
+    restart: always
   db:
     container_name: apiproject_db
-    image: postgres:13.4
+    image: postgres:12.8
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
