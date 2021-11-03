@@ -41,7 +41,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link
               class="dropdown-item"
-              :to="{ name: 'WorkingtimeEdit' }"
+              :to="{ name: 'WorkingtimeEdit', query: { userId: user.id } }"
             >
               Créer un workingtime
             </router-link>
@@ -108,9 +108,7 @@
 export default {
   name: "Navbar",
   props: { logout: Function, user: Object },
-  setup() {
-    return {};
-  },
+  setup() {},
 };
 </script>
 

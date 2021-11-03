@@ -5,45 +5,39 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import Edit from '../components/Edit.vue';
+import Edit from "../components/Edit.vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: { Edit },
-  
   setup() {
-    const store   = useStore(); 
-    const user    = computed(() => store.getters.getUser);
+    const store = useStore();
+    const route = useRoute();
 
-    const payload = {
-      userId          : user.value.id,
-      workingtimeId   : 5 // @TODO get from query  
+    if (route.query.workingtimeId) {
+      const payload = {
+        userId: route.query.userId,
+        workingtimeId: route.query.workingtimeId,
+      };
+      store.dispatch("loadWorkingtime", payload);
     }
 
-    store.dispatch("loadWorkingtime", payload)
-    
-    // no synchron results
-    // must return a promise
-    // On click on update/edit button, block page and launch loader still than promise isn't resolved
-    const workingtime = computed(() => store.getters.getWorkingtime)
-    
-    const handler = {
-      get(target, prop, ){
-        console.log("Data Get: ", target, prop);
-        return target[prop];
-      },
-      set(target, key, value) {
-        console.log("Data Set: ", target, key, value);
-        return target[key] = value;
-      }
-    }
+    const wtId = ref();
+    const start = ref();
+    const end = ref();
+    const workingtime = computed(() => store.getters.getWorkingtime);
 
-    const proxy = new Proxy(workingtime, handler);
-    console.log("proxy", proxy.value);
+    onMounted(() => {
+      watch(workingtime, (curr) => {
+        wtId.value = curr.id;
+        start.value = curr.start;
+        end.value = curr.end;
+      });
+    });
 
-
-    return { workingtime };
+    return { workingtime: { start, end, wtId } };
   },
 };
 </script>
