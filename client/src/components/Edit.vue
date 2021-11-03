@@ -54,7 +54,7 @@ export default {
         userId: user.value.id,
       };
 
-      if (wtId === "undifined") {
+      if (wtId.value != undefined) { 
         store.dispatch("updateWorkingtime", data);
       } else {
         store.dispatch("createWorkingtime", data).then(() => {
