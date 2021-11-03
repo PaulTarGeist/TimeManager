@@ -67,7 +67,7 @@ export const workingtimes = {
         console.error(e);
       }
     },
-    async createWorkingtime({}, { start, end, userId }) {
+    async createWorkingtime({ start, end, userId }) {
       try {
         return await axios.post(`${API_URL}/${userId}`, {
           start,
@@ -90,9 +90,8 @@ export const workingtimes = {
       commit("setWworkingtime", data);
     },
 
-    async deleteWorkingtime({ dispatch }, id) {
+    async deleteWorkingtime(id) {
       return await axios.delete(`${API_URL}/${id}`);
-      dispatch("loadWorkingtimes");
     },
   },
 };
