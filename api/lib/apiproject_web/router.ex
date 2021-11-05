@@ -37,6 +37,7 @@ defmodule ApiprojectWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get "/my_user", UserController, :show
+    get "/logout", UserController, :logout
     scope "/clocks" do
       get "/:userID", ClockController, :showAll
       post "/:userID", ClockController, :create

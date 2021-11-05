@@ -9,6 +9,7 @@ defmodule Apiproject.Users.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+    field :role, :string, default: "employee"
     has_many :workingtime, Apiproject.Workingtimes.Workingtime
     has_many :clock, Apiproject.Clocks.Clock
 

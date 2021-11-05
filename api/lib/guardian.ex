@@ -16,6 +16,12 @@ defmodule Apiproject.Guardian do
     {:ok,  resource}
   end
 
+  def resource_from_claims(claims) do
+    id = claims["sub"]
+    resource = Apiproject.Users.get_user!(id)
+    {:ok,  resource}
+  end
+
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
   end

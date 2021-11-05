@@ -17,16 +17,9 @@ defmodule ApiprojectWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
-  def logout(conn, %{"user" => user_params}) do {
-    with {:ok, _claims} <- Apiproject.Guardian.revoke(token) do
-
-    end
-  end
-  }
-
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Users.create_user(user_params),
-         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+         {:ok, token, claims} <- Guardian.encode_and_sign(user, %{cXsrfToken: Plug.CSRFProtection.get_csrf_token(), role: user.role}, ttl: {30, :days}) do
         conn |> render("jwt.json", jwt: token)
     end
   end
@@ -51,6 +44,12 @@ defmodule ApiprojectWeb.UserController do
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
       render(conn, "show.json", user: user)
     end
+  end
+
+  def logout(conn, params) do
+    jwt = Guardian.Plug.current_token(conn)
+    Guardian.revoke(jwt)
+    send_resp(conn, :no_content, "")
   end
 
   def delete(conn, %{"id" => id}) do

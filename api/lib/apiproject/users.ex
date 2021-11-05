@@ -44,7 +44,7 @@ defmodule Apiproject.Users do
   def token_sign_in(email, password) do
     case email_password_auth(email, password) do
       {:ok, user} ->
-        Guardian.encode_and_sign(user)
+        Guardian.encode_and_sign(user, %{cXsrfToken: Plug.CSRFProtection.get_csrf_token(), role: user.role}, ttl: {30, :days})
       _ ->
         {:error, :unauthorized}
     end
