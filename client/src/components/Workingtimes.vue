@@ -3,11 +3,11 @@
     <h1>Working times</h1>
     <form>
       <div class="form-group">
-        <label for="start">Date de début:</label>
+        <label for="start">Start date:</label>
         <input type="date" id="start" name="start" v-model="startFilter" />
       </div>
       <div class="form-group">
-        <label for="end">Date de fin:</label>
+        <label for="end">End date:</label>
         <input type="date" id="end" name="end" v-model="endFilter" />
       </div>
       <div class="form-group">
