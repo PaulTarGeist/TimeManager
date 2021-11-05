@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <h1 v-if="wtId">Edition un workingtime</h1>
-      <h1 v-else>Créer un workingtime</h1>
+      <h1 v-if="wtId">Edit a working time</h1>
+      <h1 v-else>Create a workingtime</h1>
 
       <form id="createWorkingtimeForm">
         <div>
@@ -21,8 +21,12 @@
             @click.prevent="saveItem"
           />
         </div>
-        <button v-if="wtId" @click.prevent="deleteWorkingtime(wtId)">
-          Supprimer
+        <button
+          v-if="wtId"
+          @click.prevent="deleteWorkingtime(wtId)"
+          class="btn btn-danger"
+        >
+          Delete
         </button>
       </form>
     </div>
@@ -49,12 +53,12 @@ export default {
     const saveItem = () => {
       const data = {
         wtId: wtId.value,
-        start: moment(start.value).format("YYYY-MM-DD hh:mm:ss"),
-        end: moment(end.value).format("YYYY-MM-DD hh:mm:ss"),
+        start: moment(start.value).format("YYYY-MM-DD HH:mm:ss"),
+        end: moment(end.value).format("YYYY-MM-DD HH:mm:ss"),
         userId: user.value.id,
       };
 
-      if (wtId.value != undefined) { 
+      if (wtId.value != undefined) {
         store.dispatch("updateWorkingtime", data);
       } else {
         store.dispatch("createWorkingtime", data).then(() => {
