@@ -2,6 +2,7 @@ import axios from "axios";
 const API_URL = "http://localhost:4000/api/workingtimes";
 
 export const workingtimes = {
+  namespace: true,
   state: {
     workingtimes: null,
     workingtime: null,
@@ -23,37 +24,17 @@ export const workingtimes = {
   actions: {
     async loadWorkingtimes({ commit }, { userId, start, end }) {
       try {
-        let data = await axios
+        return await axios
           .get(`${API_URL}/${userId}?start=${start}&end=${end}`)
           .then((res) => {
+            commit("setWorkingtimes", res.data.data);
             return res.data.data;
           });
-
-        commit("setWorkingtimes", data);
       } catch (e) {
         console.error(e);
       }
     },
 
-    async loadWorkingtimesByDate({ commit }, workingtimeData) {
-      try {
-        let data = await axios
-          .get(`${API_URL}/${workingtimeData.userId}`, {
-            workingtime: workingtimeData,
-          })
-          .then((res) => {
-            return res.data.data;
-          });
-
-        commit("setWorkingtimes", data);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-
-    /**
-     * @TODO workingtimeId is undefined
-     */
     async loadWorkingtime({ commit }, { userId, workingtimeId }) {
       try {
         const data = await axios
@@ -67,7 +48,8 @@ export const workingtimes = {
         console.error(e);
       }
     },
-    async createWorkingtime({ start, end, userId }) {
+
+    async createWorkingtime({ commit }, { start, end, userId }) {
       try {
         return await axios.post(`${API_URL}/${userId}`, {
           start,
@@ -77,21 +59,27 @@ export const workingtimes = {
       } catch (e) {
         console.error(e);
       }
+      commit("setWorkingtime", { start, end, userId });
     },
 
     async updateWorkingtime({ commit }, { wtId, start, end }) {
       let data = await axios
         .put(`${API_URL}/${wtId}`, { start, end })
         .then((res) => {
-          console.log("Workingtime modifié");
           return res.data.data;
         });
 
-      commit("setWworkingtime", data);
+      commit("setWorkingtime", data);
     },
 
-    async deleteWorkingtime(id) {
-      return await axios.delete(`${API_URL}/${id}`);
+    async deleteWorkingtime({ commit }, id) {
+      try {
+        return await axios.delete(`${API_URL}/${id}`);
+      } catch (e) {
+        console.error(e);
+      }
+
+      commit("setWorkingtime", id);
     },
   },
 };

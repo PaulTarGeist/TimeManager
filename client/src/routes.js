@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import UserDashboard from "./pages/UserDashboard";
 import AllUsers from "./pages/AllUsers";
 import NotFound from "./pages/NotFound";
-import WorkingtimeChart from "./pages/WorkingtimeChart";
+import ChartManager from "./pages/ChartManager";
 import AllWorkingtimes from "./pages/AllWorkingtimes";
 import WorkingtimeEdit from "./pages/WorkingtimeEdit";
 import Profil from "./pages/Profil";
@@ -46,9 +46,9 @@ const routes = [
     component: NotFound,
   },
   {
-    path: "/workingtimeChart",
-    name: "WorkingtimeChart",
-    component: WorkingtimeChart,
+    path: "/chartManager",
+    name: "ChartManager",
+    component: ChartManager,
   },
   {
     path: "/allWorkingtimes",
