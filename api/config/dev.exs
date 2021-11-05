@@ -3,9 +3,9 @@ use Mix.Config
 # Configure your database
 config :apiproject, Apiproject.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "0504",
   database: "apiproject_dev",
-  hostname: "db",
+  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

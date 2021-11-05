@@ -3,6 +3,7 @@ defmodule ApiprojectWeb.UserController do
 
   alias Apiproject.Users
   alias Apiproject.Users.User
+  alias Apiproject.Guardian
 
   action_fallback ApiprojectWeb.FallbackController
 
@@ -16,19 +17,33 @@ defmodule ApiprojectWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
+  def logout(conn, %{"user" => user_params}) do {
+    with {:ok, _claims} <- Apiproject.Guardian.revoke(token) do
+
+    end
+  end
+  }
+
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    with {:ok, %User{} = user} <- Users.create_user(user_params),
+         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+        conn |> render("jwt.json", jwt: token)
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-    render(conn, "show.json", user: user)
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Users.token_sign_in(email, password) do
+      {:ok, token, _claims} ->
+        conn |> render("jwt.json", jwt: token)
+      _ ->
+        {:error, :unauthorized}
+    end
   end
+
+  def show(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    conn |> render("user.json", user: user)
+ end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
