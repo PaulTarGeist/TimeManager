@@ -33,7 +33,7 @@ export const workingtimes = {
           });
       } catch (e) {
         createToast("An error occurred during rendering working times", {
-          type: "error",
+          type: "danger",
         });
         console.error(e);
       }
@@ -50,7 +50,7 @@ export const workingtimes = {
         commit("setWorkingtime", data);
       } catch (e) {
         createToast("An error occurred during rendering working time", {
-          type: "error",
+          type: "danger",
         });
       }
     },
@@ -70,7 +70,7 @@ export const workingtimes = {
           });
       } catch (e) {
         createToast("An error occurred during working time creation", {
-          type: "error",
+          type: "danger",
         });
       }
       commit("setWorkingtime", { start, end, userId });
@@ -87,7 +87,7 @@ export const workingtimes = {
         });
       } catch (e) {
         createToast("An error occurred during update", {
-          type: "error",
+          type: "danger",
         });
         console.error(e);
       }
@@ -102,7 +102,7 @@ export const workingtimes = {
         });
       } catch (e) {
         createToast("An error occurred during deletion", {
-          type: "error",
+          type: "danger",
         });
       }
 
