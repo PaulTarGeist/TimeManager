@@ -38,6 +38,7 @@ import { useStore } from "vuex";
 import moment from "moment";
 import { useRouter } from "vue-router";
 import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 export default {
   name: "Edit",
@@ -66,9 +67,9 @@ export default {
        */
       if (isafter) {
         createToast(
-          "An error occurred during edition: the start date must be < to the end date",
+          "An error occurred: the start date must be < to the end date",
           {
-            type: "error",
+            type: "danger",
           }
         );
         return;

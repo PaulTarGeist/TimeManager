@@ -19,7 +19,14 @@
         />
       </div>
     </form>
-    <table>
+    <router-link
+      class="btn btn-primary mr-1"
+      :to="{ name: 'WorkingtimeEdit', query: { userId: userId } }"
+    >
+      Create a working time
+    </router-link>
+
+    <table v-if="workingtimes?.length > 0">
       <tr>
         <td>Id</td>
         <td>Start date</td>
@@ -39,6 +46,11 @@
         >
       </tr>
     </table>
+    <div v-else>
+      You haven't working times between
+      {{ moment(startFilter).format("DD/MM/YYYY") }} &
+      {{ moment(endFilter).format("DD/MM/YYYY") }}
+    </div>
   </div>
 </template>
 
