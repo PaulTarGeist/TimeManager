@@ -3,11 +3,11 @@
     <h1>Working times</h1>
     <form>
       <div class="form-group">
-        <label for="start">Date de début:</label>
+        <label for="start">Start date:</label>
         <input type="date" id="start" name="start" v-model="startFilter" />
       </div>
       <div class="form-group">
-        <label for="end">Date de fin:</label>
+        <label for="end">End date:</label>
         <input type="date" id="end" name="end" v-model="endFilter" />
       </div>
       <div class="form-group">
@@ -19,7 +19,14 @@
         />
       </div>
     </form>
-    <table>
+    <router-link
+      class="btn btn-primary mr-1"
+      :to="{ name: 'WorkingtimeEdit', query: { userId: userId } }"
+    >
+      Create a working time
+    </router-link>
+
+    <table v-if="workingtimes?.length > 0">
       <tr>
         <td>Id</td>
         <td>Start date</td>
@@ -39,6 +46,11 @@
         >
       </tr>
     </table>
+    <div v-else>
+      You haven't working times between
+      {{ moment(startFilter).format("DD/MM/YYYY") }} &
+      {{ moment(endFilter).format("DD/MM/YYYY") }}
+    </div>
   </div>
 </template>
 

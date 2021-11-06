@@ -11,7 +11,6 @@
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import Navbar from "./components/Navbar.vue";
-
 export default {
   components: { Navbar },
   setup() {

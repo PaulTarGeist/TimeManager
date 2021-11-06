@@ -8,7 +8,6 @@ export function initChart(workingtimes, chartData) {
     let end = moment(item.end);
     let diff = moment.duration(end.diff(start));
     let hours = diff.asHours();
-
     chartData.data.labels.push(moment(item.start).format("DD/MM/YYYY"));
     chartData.data.datasets[0].data.push(Math.round(hours));
   });

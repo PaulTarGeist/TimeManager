@@ -56,7 +56,7 @@ export default {
     startFilter.value = moment().subtract(29, "days").format("YYYY-MM-DD");
     endFilter.value = moment().add(1, "days").format("YYYY-MM-DD");
 
-    return { startFilter, endFilter };
+    return { startFilter, endFilter, moment };
   },
   methods: {
     search() {
