@@ -36,27 +36,24 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Workingtime
+            Working times
           </span>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link
               class="dropdown-item"
               :to="{ name: 'WorkingtimeEdit', query: { userId: user.id } }"
             >
-              Créer un workingtime
+              Create a working time
             </router-link>
             <router-link
               class="dropdown-item"
               :to="{ name: 'AllWorkingtimes' }"
             >
-              Liste des workingtimes
+              Working times list
             </router-link>
 
-            <router-link
-              class="dropdown-item"
-              :to="{ name: 'WorkingtimeChart' }"
-            >
-              WorkingtimeChart
+            <router-link class="dropdown-item" :to="{ name: 'ChartManager' }">
+              Charts
             </router-link>
           </div>
         </li>

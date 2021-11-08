@@ -1,16 +1,16 @@
 <template>
   <div>
     <div>
-      <h1 v-if="wtId">Edition un workingtime</h1>
-      <h1 v-else>Créer un workingtime</h1>
+      <h1 v-if="wtId">Edit a working time</h1>
+      <h1 v-else>Create a workingtime</h1>
 
       <form id="createWorkingtimeForm">
         <div>
-          <label for="workingtime_start">Date de début</label>
+          <label for="workingtime_start">Start date</label>
           <input id="workingtime_start" type="datetime-local" v-model="start" />
         </div>
         <div>
-          <label for="workingtime_end">Date de fin</label>
+          <label for="workingtime_end">End date</label>
           <input id="workingtime_end" type="datetime-local" v-model="end" />
         </div>
         <div>
@@ -21,40 +21,61 @@
             @click.prevent="saveItem"
           />
         </div>
-        <button v-if="wtId" @click.prevent="deleteWorkingtime(wtId)">
-          Supprimer
+        <button
+          v-if="wtId"
+          @click.prevent="deleteWorkingtime(wtId)"
+          class="btn btn-danger"
+        >
+          Delete
         </button>
       </form>
     </div>
   </div>
 </template>
 <script>
-import { useStore } from "vuex";
 import { ref } from "@vue/reactivity";
-import { computed } from "vue";
+import { useStore } from "vuex";
 import moment from "moment";
 import { useRouter } from "vue-router";
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 export default {
   name: "Edit",
   props: { workingtime: Object },
   setup(props) {
-    const router = useRouter();
     const store = useStore();
-    const user = computed(() => store.getters.getUser);
+    const router = useRouter();
+    const user = JSON.parse(localStorage.getItem("user"));
     const wtId = ref(props.workingtime.wtId);
+
     const start = ref(props.workingtime.start);
     const end = ref(props.workingtime.end);
 
     const saveItem = () => {
       const data = {
         wtId: wtId.value,
-        start: moment(start.value).format("YYYY-MM-DD hh:mm:ss"),
-        end: moment(end.value).format("YYYY-MM-DD hh:mm:ss"),
-        userId: user.value.id,
+        start: moment(start.value).format("YYYY-MM-DD HH:mm:ss"),
+        end: moment(end.value).format("YYYY-MM-DD HH:mm:ss"),
+        userId: user.id,
       };
 
-      if (wtId.value != undefined) { 
+      const isafter = moment(start.value).isAfter(end.value);
+
+      /**
+       * Impossible case, start must be < to end
+       */
+      if (isafter) {
+        createToast(
+          "An error occurred: the start date must be < to the end date",
+          {
+            type: "danger",
+          }
+        );
+        return;
+      }
+
+      if (wtId.value != undefined) {
         store.dispatch("updateWorkingtime", data);
       } else {
         store.dispatch("createWorkingtime", data).then(() => {
@@ -64,9 +85,11 @@ export default {
     };
 
     const deleteWorkingtime = (wtId) => {
-      store.dispatch("deleteWorkingtime", wtId).then((res) => {
-        if (res) router.replace("/allWorkingtimes");
-      });
+      if (confirm("Do you really want to delete this working time ?")) {
+        store.dispatch("deleteWorkingtime", wtId).then(() => {
+          router.replace("/allWorkingtimes");
+        });
+      }
     };
 
     return { saveItem, deleteWorkingtime, wtId, start, end, user };

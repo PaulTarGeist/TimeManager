@@ -1,7 +1,9 @@
 import axios from "axios";
 const API_URL = "http://localhost:4000/api/workingtimes";
-
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 export const workingtimes = {
+  namespace: true,
   state: {
     workingtimes: null,
     workingtime: null,
@@ -23,37 +25,20 @@ export const workingtimes = {
   actions: {
     async loadWorkingtimes({ commit }, { userId, start, end }) {
       try {
-        let data = await axios
+        return await axios
           .get(`${API_URL}/${userId}?start=${start}&end=${end}`)
           .then((res) => {
+            commit("setWorkingtimes", res.data.data);
             return res.data.data;
           });
-
-        commit("setWorkingtimes", data);
       } catch (e) {
+        createToast("An error occurred during rendering working times", {
+          type: "danger",
+        });
         console.error(e);
       }
     },
 
-    async loadWorkingtimesByDate({ commit }, workingtimeData) {
-      try {
-        let data = await axios
-          .get(`${API_URL}/${workingtimeData.userId}`, {
-            workingtime: workingtimeData,
-          })
-          .then((res) => {
-            return res.data.data;
-          });
-
-        commit("setWorkingtimes", data);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-
-    /**
-     * @TODO workingtimeId is undefined
-     */
     async loadWorkingtime({ commit }, { userId, workingtimeId }) {
       try {
         const data = await axios
@@ -64,34 +49,64 @@ export const workingtimes = {
 
         commit("setWorkingtime", data);
       } catch (e) {
-        console.error(e);
+        createToast("An error occurred during rendering working time", {
+          type: "danger",
+        });
       }
     },
-    async createWorkingtime({ start, end, userId }) {
+
+    async createWorkingtime({ commit }, { start, end, userId }) {
       try {
-        return await axios.post(`${API_URL}/${userId}`, {
-          start,
-          end,
-          user: userId,
-        });
+        return await axios
+          .post(`${API_URL}/${userId}`, {
+            start,
+            end,
+            user: userId,
+          })
+          .then(() => {
+            createToast("Working time has been created successfully", {
+              type: "success",
+            });
+          });
       } catch (e) {
-        console.error(e);
+        createToast("An error occurred during working time creation", {
+          type: "danger",
+        });
       }
+      commit("setWorkingtime", { start, end, userId });
     },
 
     async updateWorkingtime({ commit }, { wtId, start, end }) {
-      let data = await axios
-        .put(`${API_URL}/${wtId}`, { start, end })
-        .then((res) => {
-          console.log("Workingtime modifié");
+      try {
+        await axios.put(`${API_URL}/${wtId}`, { start, end }).then((res) => {
+          createToast("Working time has been updated successfully", {
+            type: "success",
+          });
+          commit("setWorkingtime", res.data.data);
           return res.data.data;
         });
-
-      commit("setWworkingtime", data);
+      } catch (e) {
+        createToast("An error occurred during update", {
+          type: "danger",
+        });
+        console.error(e);
+      }
     },
 
-    async deleteWorkingtime(id) {
-      return await axios.delete(`${API_URL}/${id}`);
+    async deleteWorkingtime({ commit }, id) {
+      try {
+        return await axios.delete(`${API_URL}/${id}`).then(() => {
+          createToast("Working time has been deleted", {
+            type: "success",
+          });
+        });
+      } catch (e) {
+        createToast("An error occurred during deletion", {
+          type: "danger",
+        });
+      }
+
+      commit("setWorkingtime", id);
     },
   },
 };

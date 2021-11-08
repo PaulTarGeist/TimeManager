@@ -22,7 +22,7 @@ defmodule ApiprojectWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", ApiprojectWeb do
     pipe_through :api
-    # resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit]
     post "/sign_up", UserController, :create
     post "/sign_in", UserController, :sign_in
     resources "/teams", TeamController, except: [:new, :edit]
