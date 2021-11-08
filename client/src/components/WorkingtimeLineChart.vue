@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chart">
     <canvas id="workingtime-line-chart"></canvas>
   </div>
 </template>
@@ -21,4 +21,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.chart {
+  height: 40vh;
+  width: 80vw;
+}
+</style>

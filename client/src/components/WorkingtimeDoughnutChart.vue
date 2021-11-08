@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chart">
     <canvas id="workingtime-doughnut-chart"></canvas>
   </div>
 </template>
@@ -14,11 +14,16 @@ export default {
   updated() {
     this.$nextTick(function () {
       let { workingtimes } = this.workingtimes;
-      initChart(workingtimes.data, workingtimeDoughnutChartData);
+      initChart(workingtimes.data, workingtimeDoughnutChartData, true);
       new Chart("workingtime-doughnut-chart", workingtimeDoughnutChartData);
     });
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.chart {
+  height: 40vh;
+  width: 80vw;
+}
+</style>
