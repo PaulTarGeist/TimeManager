@@ -1,5 +1,5 @@
-require Logger
 defmodule ApiprojectWeb.WorkingtimeController do
+  require Logger
   use ApiprojectWeb, :controller
 
   alias Apiproject.Workingtimes

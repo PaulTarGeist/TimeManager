@@ -7,6 +7,7 @@ defmodule Apiproject.Repo.Migrations.CreateUsers do
       add :email, :string, null: false
       add :password_hash, :string, null: true
       add :role, :string
+      add :team, :integer
 
       timestamps()
     end

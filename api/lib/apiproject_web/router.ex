@@ -25,6 +25,10 @@ defmodule ApiprojectWeb.Router do
     # resources "/users", UserController, except: [:new, :edit]
     post "/sign_up", UserController, :create
     post "/sign_in", UserController, :sign_in
+    resources "/teams", TeamController, except: [:new, :edit]
+    scope "/teams" do
+      put "/:team/addUserToTeam", UserController, :addUserToTeam
+    end
     # resources "/clocks", ClockController, except: [:new, :edit]
 
     # resources "/workingtimes", WorkingtimeController, only: [:show, :update, :delete]
@@ -41,6 +45,7 @@ defmodule ApiprojectWeb.Router do
     scope "/clocks" do
       get "/:userID", ClockController, :showAll
       post "/:userID", ClockController, :create
+      get "/:id", ClockController, :show
     end
     scope "/workingtimes" do
       get "/:userID", WorkingtimeController, :showAll

@@ -10,6 +10,8 @@ use Mix.Config
 config :apiproject,
   ecto_repos: [Apiproject.Repo]
 
+config :esbuild, :version, "0.13.4"
+
 # Configures the endpoint
 config :apiproject, ApiprojectWeb.Endpoint,
   url: [host: "localhost"],

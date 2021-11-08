@@ -1,6 +1,7 @@
 defmodule ApiprojectWeb.UserController do
   use ApiprojectWeb, :controller
 
+  require Logger
   alias Apiproject.Users
   alias Apiproject.Users.User
   alias Apiproject.Guardian
@@ -36,6 +37,14 @@ defmodule ApiprojectWeb.UserController do
   def show(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
     conn |> render("user.json", user: user)
+ end
+
+ def addUserToTeam(conn, %{"team" => team, "userId" => userId}) do
+    user = Users.get_user!(userId)
+
+    with {:ok, %User{} = user} <- Users.update_user(user, %{"team" => team}) do
+      render(conn, "show.json", user: user)
+    end
  end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

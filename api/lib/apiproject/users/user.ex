@@ -1,7 +1,7 @@
 defmodule Apiproject.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
-  import Comeonin.Bcrypt, only: [hashpwsalt: 1, checkpw: 2, dummy_checkpw: 0]
+  import Comeonin.Bcrypt, only: [hashpwsalt: 1]
 
   schema "users" do
     field :email, :string
@@ -10,6 +10,7 @@ defmodule Apiproject.Users.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :role, :string, default: "employee"
+    field :team, :integer
     has_many :workingtime, Apiproject.Workingtimes.Workingtime
     has_many :clock, Apiproject.Clocks.Clock
 
@@ -19,8 +20,8 @@ defmodule Apiproject.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password, :username, :password_confirmation])
-    |> validate_required([:email, :password, :password_confirmation])
+    |> cast(attrs, [:email, :password, :username, :password_confirmation, :team])
+    |> validate_required([:email])
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
