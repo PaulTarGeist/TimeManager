@@ -22,6 +22,7 @@ defmodule ApiprojectWeb.Router do
     scope "/clocks" do
       get "/:userID", ClockController, :showAll
       post "/:userID", ClockController, :create
+      get "/:id", ClockController, :show
     end
 
     # resources "/workingtimes", WorkingtimeController, only: [:show, :update, :delete]
