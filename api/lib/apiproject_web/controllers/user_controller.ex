@@ -40,6 +40,14 @@ defmodule ApiprojectWeb.UserController do
  end
 
  def addUserToTeam(conn, %{"team" => team, "userId" => userId}) do
+    Logger.info(conn)
+    temp = Plug.Conn.get_req_header(conn, "authorization")
+    temp = to_string(temp)
+    temp = Regex.replace(~r/Bearer /, temp, "")
+    temp = Guardian.decode_and_verify(temp, %{"role" => "employee"})
+    Logger.warn(temp)
+    # jwt = Guardian.Plug.current_resource(conn)
+    # Logger.notice(jwt)
     user = Users.get_user!(userId)
 
     with {:ok, %User{} = user} <- Users.update_user(user, %{"team" => team}) do
@@ -57,6 +65,7 @@ defmodule ApiprojectWeb.UserController do
 
   def logout(conn, params) do
     jwt = Guardian.Plug.current_token(conn)
+    Logger.info(jwt)
     Guardian.revoke(jwt)
     send_resp(conn, :no_content, "")
   end

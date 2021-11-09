@@ -108,9 +108,3 @@ defmodule Apiproject.Users do
   end
 
 end
-  # Repo.update_all(
-  #     from(u in User,
-  #     where: u.id == ^userId,
-  #     update: [set: [team: ^teamId]]
-  #     )
-  #   )
