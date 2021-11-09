@@ -53,8 +53,9 @@ defmodule Apiproject.MixProject do
       {:timex, "~> 3.0"},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:guardian, "~> 1.0"}
-
+      {:guardian, "~> 1.0"},
+      {:json, "~> 1.4"},
+      {:joken, "~> 2.4"}
     ]
   end
 

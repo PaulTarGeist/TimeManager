@@ -40,19 +40,21 @@ defmodule ApiprojectWeb.UserController do
  end
 
  def addUserToTeam(conn, %{"team" => team, "userId" => userId}) do
-    Logger.info(conn)
-    temp = Plug.Conn.get_req_header(conn, "authorization")
-    temp = to_string(temp)
-    temp = Regex.replace(~r/Bearer /, temp, "")
-    temp = Guardian.decode_and_verify(temp, %{"role" => "employee"})
-    Logger.warn(temp)
-    # jwt = Guardian.Plug.current_resource(conn)
-    # Logger.notice(jwt)
-    user = Users.get_user!(userId)
-
-    with {:ok, %User{} = user} <- Users.update_user(user, %{"team" => team}) do
-      render(conn, "show.json", user: user)
-    end
+  case Enum.find(conn.req_headers, &elem(&1, 0) == "authorization") do
+    {_, token} ->
+      token = Regex.replace(~r/Bearer /, token, "")
+      case Guardian.decode_and_verify(token) do
+        {:ok, claims} ->
+          if (claims["role"] == "admin" || claims["role"] == "manager") do
+            user = Users.get_user!(userId)
+            with {:ok, %User{} = user} <- Users.update_user(user, %{"team" => team}) do
+              render(conn, "show.json", user: user)
+            end
+          end
+        {:error, error} ->
+          send_resp(error, :error, "")
+        end
+      end
  end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
