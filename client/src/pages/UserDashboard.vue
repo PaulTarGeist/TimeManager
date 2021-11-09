@@ -6,22 +6,19 @@
       <p>Name: {{ user.username }}</p>
       <p>Email: {{ user.email }}</p>
     </div>
+    <Clock :userId="userId" />
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script setup>
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
-// import User from "../components/User.vue";
-export default {
-  components: {},
-  name: "UserDashboard",
-  setup() {
-    const store = useStore();
-    const user = computed(() => store.getters["getUser"]);
-    return { user };
-  },
-};
+import Clock from "../components/Clock.vue";
+
+const store = useStore();
+const user = computed(() => store.getters["getUser"]);
+const userId = ref(user.value.id);
+store.dispatch("loadUserClocks", userId.value);
 </script>
 
 <style lang="scss" scoped></style>
