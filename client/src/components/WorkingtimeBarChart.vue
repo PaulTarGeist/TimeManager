@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <canvas id="workingtime-bar-chart"></canvas>
+  <div class="chart">
+    <canvas
+      style="height: 40vh; width: 80vw"
+      id="workingtime-bar-chart"
+    ></canvas>
   </div>
 </template>
 <script>

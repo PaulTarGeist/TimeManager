@@ -1,6 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <router-link class="navbar-brand" to="/dashboard"> TimeManger </router-link>
+    <router-link class="navbar-brand" to="/dashboard">
+      TimeManager
+    </router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -23,7 +25,7 @@
 
         <li class="nav-item">
           <router-link class="nav-link" :to="{ name: 'AllUsers' }">
-            List des utilisateurs
+            Users list
           </router-link>
         </li>
 

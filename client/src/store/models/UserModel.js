@@ -1,6 +1,8 @@
 import axios from "axios";
 const API_URL = "http://localhost:4000/api/users";
 const user = JSON.parse(localStorage.getItem("user"));
+import { createToast } from "mosha-vue-toastify";
+import "mosha-vue-toastify/dist/style.css";
 
 export const users = {
   namespace: true,
@@ -54,6 +56,9 @@ export const users = {
         const data = await axios
           .post(`${API_URL}`, { user: userData })
           .then((res) => {
+            createToast("You have been successfully registered", {
+              type: "success",
+            });
             return res.data.data;
           });
 
@@ -67,6 +72,9 @@ export const users = {
       await axios.delete(`${API_URL}/${id}`).then(() => {
         console.log("utilisateur supprimé");
       });
+      createToast("The user has been successfully deleted", {
+        type: "success",
+      });
       dispatch("logout");
     },
 
@@ -74,7 +82,9 @@ export const users = {
       let data = await axios
         .put(`${API_URL}/${id}`, { user: { username, email } })
         .then((res) => {
-          console.log("utilisateur modifié");
+          createToast("The user has been successfully updated", {
+            type: "success",
+          });
           return res.data.data;
         });
       commit("setUser", data);

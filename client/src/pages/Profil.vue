@@ -1,30 +1,31 @@
 <template>
   <div>
+    <Breadcrumb routeFirst="Profil" routeFirstName="Profil Edit" />
     <h1>Profil</h1>
 
     <form>
-      <div class="form-group row">
-        <label for="username" class="col-sm-2 col-form-label"> Username </label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            v-model="username"
-          />
-        </div>
+      <div class="mb-3">
+        <label for="username" class="form-label"> Username </label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          v-model="username"
+        />
       </div>
-      <div class="form-group row">
-        <label for="email" class="col-sm-2 col-form-label"> Email </label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" v-model="email" />
-        </div>
+      <div class="mb-3">
+        <label for="email" class="form-label"> Email </label>
+        <input type="email" class="form-control" id="email" v-model="email" />
       </div>
     </form>
 
     <div>
-      <button @click.prevent="saveUser">Mettre à jour</button>
-      <button @click.prevent="delteUser">Supprimer mon profil</button>
+      <button @click.prevent="saveUser" class="btn btn-outline-primary">
+        Update
+      </button>
+      <button @click.prevent="delteUser" class="btn btn-outline-danger">
+        Delete
+      </button>
     </div>
   </div>
 </template>
@@ -33,7 +34,10 @@
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue/";
 import { useStore } from "vuex";
+import Breadcrumb from "../components/Breadcrumb.vue";
+
 export default {
+  components: { Breadcrumb },
   name: "Profil",
   setup() {
     const store = useStore();
@@ -54,7 +58,7 @@ export default {
     };
 
     const delteUser = () => {
-      if (window.confirm("Êtes vous sur de supprimer votre profil ?")) {
+      if (window.confirm("Are you sure you want to delete your profile ?")) {
         store.dispatch("deleteUser", userId.value).then(() => {
           router.go("/");
         });
@@ -66,4 +70,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+form input {
+  width: 220px;
+}
+</style>

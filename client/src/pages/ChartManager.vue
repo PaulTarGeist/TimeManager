@@ -1,7 +1,12 @@
 <template>
   <div>
+    <Breadcrumb
+      routeFirst="AllWorkingtimes"
+      routeFirstName="All Working Times"
+      routeSecondName="Working time charts"
+    />
     <h1>Workingtimes Charts</h1>
-    <form>
+    <form class="form-group">
       <div class="form-group">
         <label for="start">Start date:</label>
         <input
@@ -9,24 +14,54 @@
           id="start"
           name="startFilter"
           v-model="startFilter"
+          class="form-control"
         />
       </div>
       <div class="form-group">
         <label for="end">End date:</label>
-        <input type="date" id="end" name="end" v-model="endFilter" />
+        <input
+          type="date"
+          id="end"
+          name="end"
+          v-model="endFilter"
+          class="form-control"
+        />
       </div>
       <div class="form-group">
         <input
           v-on:click="search()"
-          class="btn btn-primary mr-1"
+          class="submit_button btn btn-primary mr-1"
           type="button"
           value="Search"
         />
       </div>
     </form>
-    <WorkingtimeLineChart :workingtimes="{ workingtimes }" />
-    <WorkingtimeBarChart :workingtimes="{ workingtimes }" />
-    <WorkingtimeDoughnutChart :workingtimes="{ workingtimes }" />
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a v-on:click.prevent="show('line-chart')" class="nav-link" href="#"
+          >Line</a
+        >
+      </li>
+      <li class="nav-item">
+        <a v-on:click.prevent="show('bar-chart')" class="nav-link" href="#"
+          >Bar</a
+        >
+      </li>
+      <li class="nav-item">
+        <a v-on:click.prevent="show('doughnut-chart')" class="nav-link" href="#"
+          >Doughnut</a
+        >
+      </li>
+    </ul>
+    <div id="line-chart" class="chart-container">
+      <WorkingtimeLineChart :workingtimes="{ workingtimes }" />
+    </div>
+    <div id="bar-chart" class="chart-container">
+      <WorkingtimeBarChart :workingtimes="{ workingtimes }" />
+    </div>
+    <div id="doughnut-chart" class="chart-container">
+      <WorkingtimeDoughnutChart :workingtimes="{ workingtimes }" />
+    </div>
   </div>
 </template>
 
@@ -38,11 +73,14 @@ import WorkingtimeLineChart from "../components/WorkingtimeLineChart.vue";
 import WorkingtimeBarChart from "../components/WorkingtimeBarChart.vue";
 import WorkingtimeDoughnutChart from "../components/WorkingtimeDoughnutChart.vue";
 import { ref } from "@vue/reactivity";
+import Breadcrumb from "../components/Breadcrumb.vue";
+
 export default {
   components: {
     WorkingtimeLineChart,
     WorkingtimeBarChart,
     WorkingtimeDoughnutChart,
+    Breadcrumb,
   },
   data() {
     return {
@@ -59,6 +97,13 @@ export default {
     return { startFilter, endFilter, moment };
   },
   methods: {
+    show(id) {
+      document.querySelector("#line-chart").style.display = "none";
+      document.querySelector("#bar-chart").style.display = "none";
+      document.querySelector("#doughnut-chart").style.display = "none";
+      document.querySelector("#" + id).style.display = "block";
+    },
+
     search() {
       const start = {};
       const end = {};
@@ -76,6 +121,7 @@ export default {
       axios
         .get(`${API_URL}/${data.userId}?start=${data.start}&end=${data.end}`)
         .then((res) => {
+          document.querySelector("#line-chart").style.display = "block";
           this.workingtimes = res.data;
         });
     },
@@ -83,4 +129,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.chart-container {
+  display: none;
+}
+form input {
+  width: 220px;
+}
+</style>

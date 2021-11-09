@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <canvas id="workingtime-line-chart"></canvas>
+  <div class="chart">
+    <canvas
+      style="height: 40vh; width: 80vw"
+      id="workingtime-line-chart"
+    ></canvas>
   </div>
 </template>
 <script>
 import Chart from "chart.js";
 import workingtimeLineChartData from "../chart/workingtime-line-data.js";
 import { initChart } from "../utils/chart.js";
-
 export default {
   name: "WorkingtimeLineChart",
   props: { workingtimes: Object },
