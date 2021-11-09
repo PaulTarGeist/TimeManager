@@ -1,10 +1,30 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <div v-if="user">
-      <p>User Infos</p>
-      <p>Name: {{ user.username }}</p>
-      <p>Email: {{ user.email }}</p>
+    <div class="row">
+      <div class="col-4">
+        <h2>User Infos</h2>
+        <p>Name: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <router-link
+          class="btn btn-outline-primary"
+          :to="{
+            name: 'Profil',
+          }"
+          >Edit</router-link
+        >
+
+        <h2>Clock</h2>
+      </div>
+      <div class="col-6">
+        Last working times between {{ start }} & {{ end }}
+        <WorkingtimeLineChart :workingtimes="{ workingtimes }" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <WorkingtimeDoughnutChart :workingtimes="{ workingtimes }" />
+      </div>
     </div>
   </div>
 </template>
@@ -12,14 +32,35 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-// import User from "../components/User.vue";
+import WorkingtimeDoughnutChart from "../components/WorkingtimeDoughnutChart";
+import WorkingtimeLineChart from "../components/WorkingtimeLineChart";
+import moment from "moment";
+import axios from "axios";
+const API_URL = "http://localhost:4000/api/workingtimes";
+import { ref } from "@vue/reactivity";
 export default {
-  components: {},
+  components: { WorkingtimeDoughnutChart, WorkingtimeLineChart },
   name: "UserDashboard",
   setup() {
+    const workingtimes = ref([]);
     const store = useStore();
     const user = computed(() => store.getters["getUser"]);
-    return { user };
+
+    const start = moment().subtract(5, "days").format("YYYY-MM-DD HH:mm:ss");
+    const end = moment().add(1, "days").format("YYYY-MM-DD HH:mm:ss");
+    const data = {
+      start: start,
+      end: end,
+      userId: user.value.id,
+    };
+
+    axios
+      .get(`${API_URL}/${data.userId}?start=${data.start}&end=${data.end}`)
+      .then((res) => {
+        workingtimes.value = res.data;
+      });
+
+    return { user, workingtimes, start, end };
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="chart">
-    <canvas id="workingtime-bar-chart"></canvas>
+    <canvas
+      style="height: 40vh; width: 80vw"
+      id="workingtime-bar-chart"
+    ></canvas>
   </div>
 </template>
 <script>
@@ -21,9 +24,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.chart {
-  height: 40vh;
-  width: 80vw;
-}
-</style>
+<style scoped></style>

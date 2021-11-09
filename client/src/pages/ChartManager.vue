@@ -121,6 +121,7 @@ export default {
       axios
         .get(`${API_URL}/${data.userId}?start=${data.start}&end=${data.end}`)
         .then((res) => {
+          document.querySelector("#line-chart").style.display = "block";
           this.workingtimes = res.data;
         });
     },
