@@ -67,7 +67,7 @@ export const workingtimes = {
         console.error(e);
       }
     },
-    async createWorkingtime({ start, end, userId }) {
+    async createWorkingtime(_, { start, end, userId }) {
       try {
         return await axios.post(`${API_URL}/${userId}`, {
           start,

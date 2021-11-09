@@ -39,7 +39,6 @@ export const clocks = {
         await axios
           .post(`${API_URL}/${userId}`, { time, status })
           .then((res) => {
-            console.log(res.data.data);
             commit("setLastClock", res.data.data);
           });
       } catch (error) {

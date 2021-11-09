@@ -10,7 +10,7 @@
 <script>
 import moment from "moment";
 import { useStore } from "vuex";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 export default {
   name: "Clock",
@@ -18,19 +18,16 @@ export default {
   setup(props) {
     const store = useStore();
     const lastClock = computed(() => store.getters.getLastClock);
-
     const startBtn = ref();
     const stopBtn = ref();
-    const timerInterval = ref();
-    const timer = ref(
-      lastClock.value
-        ? computed(() => timer.value)
-        : moment({ hours: 0, minutes: 0, setSeconds: 0 }).format("HH:mm:ss")
+    const initTime = moment({ hours: 0, minutes: 0, seconds: 0 }).format(
+      "HH:mm:ss"
     );
+    const timer = ref(initTime);
+    const timerInterval = ref();
 
     const startTimer = () => {
       return setInterval(() => {
-        console.log("id", lastClock.value.id);
         const clockTime = moment(lastClock.value.time);
         const diff = moment(moment(), "HH:mm:ss").diff(
           moment(clockTime, "HH:mm:ss")
@@ -38,68 +35,73 @@ export default {
         const duration = moment.duration(diff);
 
         timer.value = `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
-        console.log("timer: ", timer.value);
       }, 1000);
     };
 
     watch(lastClock, (curr, prev) => {
-      console.log("prev", prev);
       if (!prev && curr.status === true) {
         timerInterval.value = startTimer();
-      }
-
-      if (curr.status === true) {
         startBtn.value = false;
         stopBtn.value = true;
+      }
+
+      if (curr.status === false) {
+        startBtn.value = true;
+        stopBtn.value = false;
+      }
+    });
+
+    onMounted(() => {
+      if (lastClock.value && lastClock.value.status === true) {
+        timerInterval.value = startTimer();
+        startBtn.value = false;
+        stopBtn.value = true;
+      } else {
+        startBtn.value = true;
+        stopBtn.value = false;
       }
     });
 
     const createTimer = () => {
-      console.log("start");
-      const payload = {
+      const clockPayload = {
         userId: props.userId,
         time: moment().format("YYYY-MM-DD HH:mm:ss"),
         status: true,
       };
-      console.log(payload);
-      timerInterval.value = startTimer();
 
+      store.dispatch("createClock", clockPayload);
+
+      timerInterval.value = startTimer();
       startBtn.value = false;
       stopBtn.value = true;
-      store.dispatch("createClock", payload);
     };
 
     const stopTimer = () => {
-      console.log("stop");
-      const payload = {
+      watch(lastClock, (curr, prev) => {
+        const wtPayload = {
+          userId: props.userId,
+          start: prev.time,
+          end: curr.time,
+        };
+
+        store.dispatch("createWorkingtime", wtPayload);
+      });
+
+      const clockPayload = {
         userId: props.userId,
         time: moment().format("YYYY-MM-DD HH:mm:ss"),
         status: false,
       };
-      console.log(payload);
 
       clearInterval(timerInterval.value);
-
-      console.log("TTTTTTTTTTTT", timer.value);
-
       startBtn.value = true;
       stopBtn.value = false;
-      store.dispatch("createClock", payload);
+      store.dispatch("createClock", clockPayload);
 
-      // wtPayload = {}
-      // store.dispatch("", payload);
-      timer.value = moment({ hours: 0, minutes: 0, setSeconds: 0 }).format(
-        "HH:mm:ss"
-      );
+      timer.value = initTime;
     };
 
-    return {
-      timer,
-      startBtn,
-      stopBtn,
-      createTimer,
-      stopTimer,
-    };
+    return { timer, startBtn, stopBtn, createTimer, stopTimer };
   },
 };
 </script>
