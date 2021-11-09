@@ -34,13 +34,14 @@ export const users = {
           .get(`${API_URL}?username=${username}&email=${email}`)
           .then((res) => {
             if (res.data.data === null)
-              throw new Error("identifiants inccorect.");
-
+              throw new Error("incorrect credentials.");
             localStorage.setItem("user", JSON.stringify(res.data.data));
             commit("setUser", res.data.data);
           });
       } catch (e) {
-        console.error(e.message);
+        createToast(e.message, {
+          type: "danger",
+        });
       }
     },
 
@@ -50,7 +51,7 @@ export const users = {
 
         users.filter((u) => {
           if (u.email === userData.email)
-            throw new Error("l'email existe déja.");
+            throw new Error("Email already exists.");
         });
 
         const data = await axios
@@ -64,7 +65,9 @@ export const users = {
 
         if (data.lenght) dispatch("loadUsers");
       } catch (e) {
-        console.log(e.message);
+        createToast(e.message, {
+          type: "danger",
+        });
       }
     },
 

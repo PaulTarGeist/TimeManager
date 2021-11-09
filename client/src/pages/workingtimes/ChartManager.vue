@@ -69,11 +69,11 @@
 import moment from "moment";
 import axios from "axios";
 const API_URL = "http://localhost:4000/api/workingtimes";
-import WorkingtimeLineChart from "../components/WorkingtimeLineChart.vue";
-import WorkingtimeBarChart from "../components/WorkingtimeBarChart.vue";
-import WorkingtimeDoughnutChart from "../components/WorkingtimeDoughnutChart.vue";
+import WorkingtimeLineChart from "../../components/charts/WorkingtimeLineChart.vue";
+import WorkingtimeBarChart from "../../components/charts/WorkingtimeBarChart.vue";
+import WorkingtimeDoughnutChart from "../../components/charts/WorkingtimeDoughnutChart.vue";
 import { ref } from "@vue/reactivity";
-import Breadcrumb from "../components/Breadcrumb.vue";
+import Breadcrumb from "../../components/Breadcrumb.vue";
 
 export default {
   components: {

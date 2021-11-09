@@ -39,13 +39,13 @@ export default {
     };
 
     watch(lastClock, (curr, prev) => {
-      if (!prev && curr.status === true) {
+      if (!prev && curr?.status === true) {
         timerInterval.value = startTimer();
         startBtn.value = false;
         stopBtn.value = true;
       }
 
-      if (curr.status === false) {
+      if (curr?.status === false) {
         startBtn.value = true;
         stopBtn.value = false;
       }

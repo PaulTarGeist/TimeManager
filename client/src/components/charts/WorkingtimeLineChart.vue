@@ -8,8 +8,8 @@
 </template>
 <script>
 import Chart from "chart.js";
-import workingtimeLineChartData from "../chart/workingtime-line-data.js";
-import { initChart } from "../utils/chart.js";
+import workingtimeLineChartData from "../../utils/charts/workingtime-line-data.js";
+import { initChart } from "../../utils/charts/chart.js";
 export default {
   name: "WorkingtimeLineChart",
   props: { workingtimes: Object },
