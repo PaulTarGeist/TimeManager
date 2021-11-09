@@ -15,6 +15,7 @@
         >
 
         <h2>Clock</h2>
+        <Clock :userId="userId" />
       </div>
       <div class="col-6">
         Last working times between {{ start }} & {{ end }}
@@ -29,15 +30,18 @@
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script setup>
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+
 import WorkingtimeDoughnutChart from "../components/WorkingtimeDoughnutChart";
 import WorkingtimeLineChart from "../components/WorkingtimeLineChart";
 import moment from "moment";
 import axios from "axios";
 const API_URL = "http://localhost:4000/api/workingtimes";
 import { ref } from "@vue/reactivity";
+import Clock from "../components/Clock.vue";
+
 export default {
   components: { WorkingtimeDoughnutChart, WorkingtimeLineChart },
   name: "UserDashboard",
@@ -45,7 +49,9 @@ export default {
     const workingtimes = ref([]);
     const store = useStore();
     const user = computed(() => store.getters["getUser"]);
-
+    const userId = ref(user.value.id);
+    store.dispatch("loadUserClocks", userId.value);
+    
     const start = moment().subtract(5, "days").format("YYYY-MM-DD HH:mm:ss");
     const end = moment().add(1, "days").format("YYYY-MM-DD HH:mm:ss");
     const data = {
@@ -63,6 +69,7 @@ export default {
     return { user, workingtimes, start, end };
   },
 };
+
 </script>
 
 <style lang="scss" scoped></style>
