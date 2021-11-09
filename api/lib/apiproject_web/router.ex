@@ -24,7 +24,7 @@ defmodule ApiprojectWeb.Router do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
     post "/sign_up", UserController, :create
-    get "/sign_in", UserController, :sign_in
+    post "/sign_in", UserController, :sign_in
     resources "/teams", TeamController, except: [:new, :edit]
     scope "/teams" do
       put "/:team/addUserToTeam", UserController, :addUserToTeam
