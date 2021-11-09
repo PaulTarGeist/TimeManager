@@ -75,12 +75,8 @@ export const workingtimes = {
       }
       commit("setWorkingtime", { start, end, userId });
     },
-<<<<<<< HEAD
 
     async updateWorkingtime({ commit }, { wtId, start, end }) {
-=======
-    async createWorkingtime(_, { start, end, userId }) {
->>>>>>> clocks
       try {
         await axios.put(`${API_URL}/${wtId}`, { start, end }).then((res) => {
           createToast("Working time has been updated successfully", {
