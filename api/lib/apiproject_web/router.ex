@@ -24,17 +24,11 @@ defmodule ApiprojectWeb.Router do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
     post "/sign_up", UserController, :create
-    post "/sign_in", UserController, :sign_in
+    get "/sign_in", UserController, :sign_in
     resources "/teams", TeamController, except: [:new, :edit]
     scope "/teams" do
       put "/:team/addUserToTeam", UserController, :addUserToTeam
     end
-    # resources "/clocks", ClockController, except: [:new, :edit]
-
-    # resources "/workingtimes", WorkingtimeController, only: [:show, :update, :delete]
-    # get "/workingtimes/:userID", WorkingtimeController, :showByUser
-    # post "/workingtimes/:userID", WorkingtimeController, :createByUser
-
   end
 
   scope "/api", ApiprojectWeb do
