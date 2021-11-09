@@ -17,22 +17,12 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
 export default {
   name: "Breadcrumb",
   props: {
     routeFirst: String,
     routeFirstName: String,
     routeSecondName: String,
-  },
-  setup(props) {
-    const routeFirst = ref(props.routeFirst).value;
-    const routeFirstName = ref(props.routeFirstName).value;
-    const routeSecondName = ref(props.routeSecondName).value;
-
-    console.log("routeFirst", routeFirst);
-    console.log("routeFirstName", routeFirstName);
-    console.log("routeSecondName", routeSecondName);
   },
 };
 </script>
