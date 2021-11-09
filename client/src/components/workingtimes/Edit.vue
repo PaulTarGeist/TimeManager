@@ -55,7 +55,7 @@ import moment from "moment";
 import { useRouter } from "vue-router";
 import { createToast } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import Breadcrumb from "./Breadcrumb.vue";
+import Breadcrumb from "../Breadcrumb.vue";
 
 export default {
   name: "Edit",

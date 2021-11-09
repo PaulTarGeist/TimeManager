@@ -34,7 +34,7 @@
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue/";
 import { useStore } from "vuex";
-import Breadcrumb from "../components/Breadcrumb.vue";
+import Breadcrumb from "../../components/Breadcrumb.vue";
 
 export default {
   components: { Breadcrumb },

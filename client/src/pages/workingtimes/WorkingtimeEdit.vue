@@ -7,7 +7,7 @@
 <script>
 import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import Edit from "../components/Edit.vue";
+import Edit from "../../components/workingtimes/Edit.vue";
 import { useRoute } from "vue-router";
 
 export default {

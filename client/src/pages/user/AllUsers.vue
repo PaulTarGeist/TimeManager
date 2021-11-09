@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import UsersList from "../components/UsersList.vue";
+import UsersList from "../../components/UsersList.vue";
 export default {
   components: { UsersList },
   setup() {

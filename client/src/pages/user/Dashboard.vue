@@ -4,8 +4,8 @@
     <div class="row">
       <div class="col-4">
         <h2>User Infos</h2>
-        <p>Name: {{ user.username }}</p>
-        <p>Email: {{ user.email }}</p>
+        <p>Name: {{ user?.username }}</p>
+        <p>Email: {{ user?.email }}</p>
         <router-link
           class="btn btn-outline-primary"
           :to="{
@@ -30,28 +30,26 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
-
-import WorkingtimeDoughnutChart from "../components/WorkingtimeDoughnutChart";
-import WorkingtimeLineChart from "../components/WorkingtimeLineChart";
+import WorkingtimeDoughnutChart from "../../components/charts/WorkingtimeDoughnutChart";
+import WorkingtimeLineChart from "../../components/charts/WorkingtimeLineChart";
 import moment from "moment";
 import axios from "axios";
 const API_URL = "http://localhost:4000/api/workingtimes";
-import { ref } from "@vue/reactivity";
-import Clock from "../components/Clock.vue";
+import Clock from "../../components/Clock.vue";
 
 export default {
-  components: { WorkingtimeDoughnutChart, WorkingtimeLineChart },
-  name: "UserDashboard",
+  components: { WorkingtimeDoughnutChart, WorkingtimeLineChart, Clock },
+  name: "Dashboard",
   setup() {
     const workingtimes = ref([]);
     const store = useStore();
     const user = computed(() => store.getters["getUser"]);
     const userId = ref(user.value.id);
     store.dispatch("loadUserClocks", userId.value);
-    
+
     const start = moment().subtract(5, "days").format("YYYY-MM-DD HH:mm:ss");
     const end = moment().add(1, "days").format("YYYY-MM-DD HH:mm:ss");
     const data = {
@@ -66,10 +64,9 @@ export default {
         workingtimes.value = res.data;
       });
 
-    return { user, workingtimes, start, end };
+    return { user, workingtimes, start, end, userId };
   },
 };
-
 </script>
 
 <style lang="scss" scoped></style>

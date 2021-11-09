@@ -1,13 +1,13 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import UserDashboard from "./pages/UserDashboard";
-import AllUsers from "./pages/AllUsers";
+import Dashboard from "./pages/user/Dashboard";
+import AllUsers from "./pages/user/AllUsers";
 import NotFound from "./pages/NotFound";
-import ChartManager from "./pages/ChartManager";
-import AllWorkingtimes from "./pages/AllWorkingtimes";
-import WorkingtimeEdit from "./pages/WorkingtimeEdit";
-import Profil from "./pages/Profil";
+import ChartManager from "./pages/workingtimes/ChartManager";
+import AllWorkingtimes from "./pages/workingtimes/AllWorkingtimes";
+import WorkingtimeEdit from "./pages/workingtimes/WorkingtimeEdit";
+import Profil from "./pages/user/Profil";
 const user = JSON.parse(localStorage.getItem("user"));
 
 const routes = [
@@ -28,7 +28,7 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: UserDashboard,
+    component: Dashboard,
   },
   {
     path: "/profil",

@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <Workingtimes />
-  </div>
+  <Workingtimes />
 </template>
 
 <script>
-import Workingtimes from "../components/Workingtimes.vue";
+import Workingtimes from "../../components/workingtimes/Workingtimes.vue";
 export default {
   components: { Workingtimes },
   setup() {

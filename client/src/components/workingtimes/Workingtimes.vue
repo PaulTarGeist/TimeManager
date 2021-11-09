@@ -83,7 +83,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import moment from "moment";
 import { ref } from "@vue/reactivity";
-import Breadcrumb from "./Breadcrumb.vue";
+import Breadcrumb from "../Breadcrumb.vue";
 
 export default {
   components: { Breadcrumb },
