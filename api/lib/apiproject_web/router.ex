@@ -22,19 +22,20 @@ defmodule ApiprojectWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", ApiprojectWeb do
     pipe_through :api
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit, :create]
     post "/sign_up", UserController, :create
     post "/sign_in", UserController, :sign_in
-    resources "/teams", TeamController, except: [:new, :edit]
-    scope "/teams" do
-      put "/:team/addUserToTeam", UserController, :addUserToTeam
-    end
   end
 
   scope "/api", ApiprojectWeb do
     pipe_through [:api, :jwt_authenticated]
-
-    get "/my_user", UserController, :show
+    resources "/teams", TeamController, except: [:new, :edit]
+    scope "/users" do
+      put "/updateRole/:id", UserController, :updateRole
+    scope "/teams" do
+      put "/:team/addUserToTeam", UserController, :addUserToTeam
+    end
+    # get "/my_user", UserController, :show
     get "/logout", UserController, :logout
     scope "/clocks" do
       get "/:userID", ClockController, :showAll
