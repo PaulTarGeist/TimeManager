@@ -9,6 +9,9 @@ jobs:
   deployement:
     runs-on: self-hosted
     steps:
+      - name: clone_repo
+        uses: actions/checkout@v2
+
       - name: deploy_prod
         run: |
           touch .env
