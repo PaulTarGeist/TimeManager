@@ -1,0 +1,21 @@
+name: deployement
+
+on:
+  push:
+   branches:
+   - master
+   - dockerHeroku
+
+deployement:
+  run-on: self-hosted
+  steps:
+    - name: deploy_prod
+      run: |
+        touch .env
+        echo "PGUSER=${{ secrets.PGUSER }}" >> .env
+        echo "PGPASSWORD=${{ secrets.PGPASSWORD }}" >> .env
+        echo "PGDATABASE=${{ secrets.PGDATABASE }}" >> .env
+        echo "PGHOST=${{ secrets.PGHOST }}" >> .env
+        echo "PGPORT=${{ secrets.PGPORT }}" >> .env
+        docker-compose -p timemanager up --build -d
+        rm .env
