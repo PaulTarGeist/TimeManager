@@ -6,11 +6,11 @@ services:
     build:
       context: ./api
     environment:
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDATABASE: apiproject_dev
-      PGPORT: 5432
-      PGHOST: db
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: ${PGDATABASE}
+      PGPORT: ${PGPORT}
+      PGHOST: ${PGHOST}
     ports:
       - "4000:4000"
     depends_on:
