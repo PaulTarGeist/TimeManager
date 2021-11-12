@@ -55,7 +55,25 @@ defmodule ApiprojectWeb.UserController do
           send_resp(error, :error, "")
         end
       end
- end
+  end
+
+  def updateRole(conn, %{"id" => id, "role" => role}) do
+    case Enum.find(conn.req_headers, &elem(&1, 0) == "authorization") do
+      {_, token} ->
+        token = Regex.replace(~r/Bearer /, token, "")
+        case Guardian.decode_and_verify(token) do
+          {:ok, claims} ->
+            if (claims["role"] == "admin") do
+              user = Users.get_user!(id)
+              with {:ok, %User{} = user} <- Users.update_user(user, %{"role" => role}) do
+                render(conn, "show.json", user: user)
+              end
+            end
+          {:error, error} ->
+            send_resp(error, :error, "")
+          end
+        end
+    end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
@@ -65,7 +83,7 @@ defmodule ApiprojectWeb.UserController do
     end
   end
 
-  def logout(conn, params) do
+  def logout(conn, _params) do
     jwt = Guardian.Plug.current_token(conn)
     Logger.info(jwt)
     Guardian.revoke(jwt)
