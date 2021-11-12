@@ -7,7 +7,7 @@ on:
    - dockerHeroku
 jobs:
   deployement:
-    run-on: self-hosted
+    runs-on: self-hosted
     steps:
       - name: deploy_prod
         run: |
